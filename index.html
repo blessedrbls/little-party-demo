@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Little Party Studio — повітряні кульки на Троєщині</title>
+  <meta name="description" content="Повітряні кульки на Троєщині, Київ. Набори на день народження, виписку та свята. Безкоштовна доставка по Троєщині від 700 грн.">
+  <meta name="theme-color" content="#f8f1ea">
+  <meta property="og:title" content="Little Party Studio — повітряні кульки на Троєщині">
+  <meta property="og:description" content="Набори на день народження, виписку та свята. Безкоштовна доставка по Троєщині від 700 грн.">
+  <meta property="og:image" content="images/set-16.jpg">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%88%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="#top" aria-label="Little Party Studio — на початок">
+        <span class="logo__mark" aria-hidden="true"></span>
+        <span class="logo__text">Little Party <em>Studio</em></span>
+      </a>
+      <nav class="nav" aria-label="Розділи">
+        <a href="#sets">Готові набори</a>
+        <a href="#builder">Конструктор</a>
+        <a href="#contacts">Контакти</a>
+      </nav>
+      <a class="header__call" data-phone-link="0" href="#" aria-label="Подзвонити">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15.1 15.1 0 0 0 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1A17 17 0 0 1 3 4c0-.6.4-1 1-1h3.5c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.3 0 .7-.2 1L6.6 10.8z"/></svg>
+        <span data-phone-text="0"></span>
+      </a>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero__inner">
+        <div class="hero__text">
+          <p class="eyebrow">Київ · Троєщина</p>
+          <h1>Повітряні кульки на&nbsp;Троєщині</h1>
+          <p class="hero__lead">Набори на день народження, виписку та свята. Безкоштовна доставка по Троєщині від&nbsp;700&nbsp;грн</p>
+          <div class="hero__actions">
+            <a class="btn btn--primary btn--lg" href="#builder">Зібрати набір</a>
+            <a class="btn btn--ghost btn--lg" href="#sets">Готові набори</a>
+          </div>
+        </div>
+        <div class="hero__media">
+          <div class="hero__arch">
+            <img src="images/set-16.jpg" alt="Срібні цифри 18, пудровий бант і фонтани з білих та рожевих кульок" width="980" height="1400" fetchpriority="high">
+          </div>
+          <span class="hero__badge">
+            <strong>0 грн</strong>
+            доставка від 700&nbsp;грн
+          </span>
+          <span class="deco deco--pink" aria-hidden="true"></span>
+          <span class="deco deco--blue" aria-hidden="true"></span>
+          <span class="deco deco--gold" aria-hidden="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ГОТОВІ НАБОРИ -->
+    <section class="section" id="sets">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Наші роботи</p>
+          <h2>Готові набори</h2>
+          <p class="section__sub">Замовте як на фото або зберіть схожий у конструкторі</p>
+        </div>
+        <div class="tabs" role="tablist" aria-label="Категорії наборів" id="set-tabs"></div>
+        <div class="sets-grid" id="sets-grid" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- КОНСТРУКТОР -->
+    <section class="section section--tint" id="builder">
+      <div class="container">
+        <div class="section__head">
+          <p class="eyebrow">Конструктор</p>
+          <h2>Зберіть свій набір</h2>
+          <p class="section__sub">Оберіть кульки — сума порахується одразу</p>
+        </div>
+
+        <div class="builder">
+          <div class="builder__steps">
+
+            <div class="ref-chip" id="ref-chip" hidden></div>
+
+            <fieldset class="step">
+              <legend class="step__title"><span class="step__num">1</span>Привід</legend>
+              <div class="occasions" id="occasions"></div>
+            </fieldset>
+
+            <div class="step">
+              <h3 class="step__title"><span class="step__num">2</span>Латексні кульки</h3>
+              <ul class="items" id="latex-list"></ul>
+            </div>
+
+            <div class="step">
+              <h3 class="step__title"><span class="step__num">3</span>Фольговані кульки</h3>
+              <ul class="items" id="foil-list"></ul>
+            </div>
+
+            <div class="step">
+              <h3 class="step__title"><span class="step__num">4</span>Цифри</h3>
+              <div class="numbers">
+                <label class="field">
+                  <span class="field__label">Які цифри потрібні?</span>
+                  <input class="input input--digits" id="digits" type="text" inputmode="numeric" maxlength="4" placeholder="наприклад, 25" autocomplete="off">
+                </label>
+                <div class="field">
+                  <span class="field__label">Розмір</span>
+                  <div class="segmented" id="sizes" role="radiogroup" aria-label="Розмір цифр"></div>
+                </div>
+                <div class="digits-preview" id="digits-preview" aria-hidden="true"></div>
+                <p class="numbers__hint" id="digits-hint">Кожна цифра рахується окремо</p>
+              </div>
+            </div>
+          </div>
+
+          <aside class="summary" id="summary" aria-label="Підсумок">
+            <div class="summary__card">
+              <h3 class="summary__title">Ваш набір</h3>
+              <ul class="summary__list" id="summary-list"></ul>
+              <div class="summary__bar">
+                <div class="summary__row">
+                  <span class="summary__label">Разом</span>
+                  <span class="summary__total" id="summary-total">0 грн</span>
+                </div>
+                <div class="progress" aria-hidden="true"><span id="progress-fill"></span></div>
+                <p class="summary__delivery" id="summary-delivery"></p>
+                <p class="summary__note" id="summary-note" hidden>Точну суму підтвердить менеджер</p>
+                <button class="btn btn--primary btn--block btn--lg" id="builder-order" type="button" disabled>Оформити замовлення</button>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- КОНТАКТИ -->
+    <section class="section" id="contacts">
+      <div class="container">
+        <div class="contacts">
+          <div class="contacts__text">
+            <p class="eyebrow">Контакти</p>
+            <h2>Зв'яжіться з нами</h2>
+            <p class="section__sub">Київ, район <strong>Троєщина</strong>. Безкоштовна доставка по Троєщині від 700&nbsp;грн.</p>
+            <ul class="phones" id="phones"></ul>
+            <a class="insta" id="insta" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+              <span></span>
+            </a>
+          </div>
+          <div class="contacts__actions">
+            <a class="btn btn--viber btn--lg btn--block" id="viber" href="#">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.9 2 3 5.4 3 10.2c0 2.7 1.3 5 3.4 6.5V21l3.6-2.2c.6.1 1.3.2 2 .2 5.1 0 9-3.4 9-8.2S17.1 2 12 2z"/></svg>
+              Написати у Viber
+            </a>
+            <a class="btn btn--telegram btn--lg btn--block" id="telegram" href="#" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.5 2.8 10.7c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.6c.2.7 1.1.9 1.6.4l2.6-2.4 4.8 3.5c.6.4 1.4.1 1.6-.6l3-15.6c.2-.9-.7-1.6-1.4-1.4zM9.6 14.4l-.5 3.6-1.3-4.3 9.6-6.3-7.8 7z"/></svg>
+              Написати у Telegram
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <span>© <span id="year"></span> Little Party Studio · Київ, Троєщина</span>
+      <span class="footer__demo">Демо-версія</span>
+    </div>
+  </footer>
+
+  <!-- Перегляд фото -->
+  <dialog class="lightbox" id="lightbox" aria-label="Фото набору">
+    <button class="dialog-close" type="button" data-close aria-label="Закрити">×</button>
+    <figure>
+      <img id="lightbox-img" src="" alt="">
+      <figcaption id="lightbox-caption"></figcaption>
+    </figure>
+  </dialog>
+
+  <!-- Форма замовлення -->
+  <dialog class="modal" id="order-modal" aria-labelledby="order-title">
+    <button class="dialog-close" type="button" data-close aria-label="Закрити">×</button>
+
+    <form class="order" id="order-form" novalidate>
+      <h2 class="order__title" id="order-title">Оформлення замовлення</h2>
+
+      <div class="order__summary">
+        <p class="order__summary-label">Склад набору</p>
+        <ul id="order-items"></ul>
+        <p class="order__summary-total">Сума: <strong id="order-total"></strong></p>
+        <p class="order__summary-note" id="order-note"></p>
+      </div>
+
+      <label class="field">
+        <span class="field__label">Ім'я *</span>
+        <input class="input" name="name" type="text" autocomplete="given-name" required>
+        <span class="field__error">Вкажіть ваше ім'я</span>
+      </label>
+
+      <label class="field">
+        <span class="field__label">Телефон *</span>
+        <input class="input" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+380 __ ___ __ __" required>
+        <span class="field__error">Вкажіть номер телефону</span>
+      </label>
+
+      <div class="field-row">
+        <label class="field">
+          <span class="field__label">Дата *</span>
+          <input class="input" name="date" type="date" required>
+          <span class="field__error">Оберіть дату</span>
+        </label>
+        <label class="field">
+          <span class="field__label">Час</span>
+          <input class="input" name="time" type="time" step="900">
+        </label>
+      </div>
+
+      <div class="field">
+        <span class="field__label">Отримання</span>
+        <div class="segmented segmented--wide">
+          <label><input type="radio" name="delivery" value="delivery" checked><span>Доставка</span></label>
+          <label><input type="radio" name="delivery" value="pickup"><span>Самовивіз</span></label>
+        </div>
+      </div>
+
+      <label class="field" id="address-field">
+        <span class="field__label">Адреса доставки *</span>
+        <input class="input" name="address" type="text" autocomplete="street-address" placeholder="вулиця, будинок, під'їзд, квартира" required>
+        <span class="field__error">Вкажіть адресу</span>
+      </label>
+
+      <label class="field">
+        <span class="field__label">Коментар</span>
+        <textarea class="input" name="comment" rows="3" placeholder="кольори, напис на кульці, побажання"></textarea>
+      </label>
+
+      <button class="btn btn--primary btn--lg btn--block" type="submit">Відправити заявку</button>
+      <p class="order__demo">Демо: заявка нікуди не надсилається</p>
+    </form>
+
+    <div class="success" id="order-success" hidden>
+      <div class="success__icon" aria-hidden="true">🎈</div>
+      <h2>Дякуємо!</h2>
+      <p>Заявка прийнята, ми зв'яжемося з вами</p>
+      <button class="btn btn--primary btn--lg" type="button" data-close>Добре</button>
+    </div>
+  </dialog>
+
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
