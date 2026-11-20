@@ -207,7 +207,7 @@
 
     const open = !!state.open[x.id];
     const picked = pal.items.filter((c) => state.colors[x.id][c.id] > 0);
-    const badge = qty ? `${qty} шт.` : "Обрати кольори";
+    const badge = qty ? `${qty} шт.` : pal.pick || "Обрати кольори";
     return `
       <li class="item item--palette${qty > 0 ? " is-active" : ""}${open ? " is-open" : ""}" data-group="latex" data-id="${esc(x.id)}">
         <button class="item__row item__toggle" type="button" data-toggle="${esc(x.id)}" aria-expanded="${open}" aria-controls="pal-${esc(x.id)}">
@@ -219,25 +219,15 @@
           <span class="item__badge">${badge}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>
         </button>
         <div class="palette" id="pal-${esc(x.id)}" ${open ? "" : "hidden"}>
-          <p class="palette__hint">Натисніть на колір, щоб додати. Можна кілька.</p>
-          <div class="swatches" role="group" aria-label="Кольори: ${esc(x.name)}">
-            ${pal.items
-              .map((c) => {
-                const n = state.colors[x.id][c.id] || 0;
-                return `<button class="swatch" type="button" data-color="${esc(x.id)}:${esc(c.id)}" aria-pressed="${n > 0}" title="${esc(c.name)}" aria-label="${esc(c.name)}${n ? `, ${n} шт.` : ""}" style="--c:${esc(c.hex)}">
-                  <img src="${esc(swatchSrc(pal, c))}" alt="" loading="lazy" decoding="async" width="128" height="128">
-                  ${n ? `<span class="swatch__qty">${n}</span>` : ""}
-                </button>`;
-              })
-              .join("")}
-          </div>
+          <p class="palette__hint">${esc(pal.hint || "Натисніть на колір, щоб додати. Можна кілька.")}</p>
+          ${swatchGroupsHtml(x, pal)}
           ${
             picked.length
               ? `<ul class="picked">${picked
                   .map(
                     (c) => `
             <li class="picked__row">
-              <span class="picked__dot" style="background-image:url('${esc(swatchSrc(pal, c))}');--c:${esc(c.hex)}" aria-hidden="true"></span>
+              <span class="picked__dot${c.custom ? " picked__dot--custom" : ""}" style="${c.custom ? "" : `background-image:url('${esc(swatchSrc(pal, c))}');`}--c:${esc(c.hex)}" aria-hidden="true">${c.custom ? "Aa" : ""}</span>
               <span class="picked__name">${esc(c.name)}</span>
               ${stepperHtml(c.name, state.colors[x.id][c.id], `data-cstep="${esc(x.id)}:${esc(c.id)}"`)}
             </li>`
@@ -245,8 +235,39 @@
                   .join("")}</ul>`
               : ""
           }
+          ${inscriptionHtml("latex", x, state.colors[x.id].custom || 0)}
         </div>
       </li>`;
+  }
+
+  // Плитки палітри; якщо в палітрі є groups — з підзаголовками
+  function swatchGroupsHtml(x, pal) {
+    const tiles = (list) =>
+      list
+        .map((c) => {
+          const n = state.colors[x.id][c.id] || 0;
+          const face = c.custom
+            ? `<span class="swatch__custom" aria-hidden="true"><b>Aa</b>${esc(c.name)}</span>`
+            : `<img src="${esc(swatchSrc(pal, c))}" alt="" loading="lazy" decoding="async" width="128" height="128">`;
+          return `<button class="swatch${c.custom ? " swatch--custom" : ""}" type="button" data-color="${esc(x.id)}:${esc(c.id)}" aria-pressed="${n > 0}" title="${esc(c.name)}" aria-label="${esc(c.name)}${n ? `, ${n} шт.` : ""}" style="--c:${esc(c.hex)}">
+                  ${face}
+                  ${n ? `<span class="swatch__qty">${n}</span>` : ""}
+                </button>`;
+        })
+        .join("");
+    const label = `${pal.label || "Кольори"}: ${x.name}`;
+    if (!pal.groups) return `<div class="swatches" role="group" aria-label="${esc(label)}">${tiles(pal.items)}</div>`;
+    return pal.groups
+      .map((g) => {
+        const list = pal.items.filter((c) => c.group === g.id);
+        if (!list.length) return "";
+        return `
+          <div class="swatch-group">
+            <p class="swatch-group__title">${esc(g.label)}</p>
+            <div class="swatches swatches--tiles" role="group" aria-label="${esc(`${g.label}: ${x.name}`)}">${tiles(list)}</div>
+          </div>`;
+      })
+      .join("");
   }
 
   function renderList(group, el) {
@@ -305,7 +326,11 @@
       if (pal) {
         detail = pal.items
           .filter((c) => state.colors[x.id][c.id] > 0)
-          .map((c) => `${c.name} × ${state.colors[x.id][c.id]}`)
+          .map((c) => {
+            const t = c.custom ? textOf(`latex:${x.id}`) : "";
+            const name = c.custom ? (t ? `напис «${t}»` : "свій напис: уточнити") : c.name;
+            return `${name} × ${state.colors[x.id][c.id]}`;
+          })
           .join(", ");
       } else if (x.inscription) {
         const t = textOf(`latex:${x.id}`);

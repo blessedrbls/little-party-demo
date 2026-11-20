@@ -65,7 +65,7 @@ const SHOP = {
     { id: "plain", name: "Звичайні", price: 90, swatch: "plain", palette: "plain" },
     { id: "chrome", name: "Хром", price: 100, swatch: "chrome", palette: "chrome" },
     { id: "confetti", name: "З конфетті", price: 100, swatch: "confetti", palette: "confetti" },
-    { id: "print", name: "З малюнком / написом", price: 95, swatch: "print", inscription: true },
+    { id: "print", name: "З малюнком / написом", price: 95, swatch: "print", palette: "print", inscription: true },
     { id: "agate", name: "Агати", price: 110, swatch: "agate", palette: "agate" },
     { id: "brush", name: "Браш", price: 110, swatch: "brush", palette: "brush" },
   ],
@@ -87,8 +87,53 @@ const SHOP = {
     { id: "100", label: "100 см", price: 450 },
   ],
 
-  // Палітри кольорів. Фото: colors/<folder>/sm/<id>.jpg (оригінали — colors/<folder>/<id>.jpg)
+  // Палітри кольорів і малюнків. Фото: colors/<folder>/sm/<id>.jpg (оригінали — colors/<folder>/<id>.jpg)
+  // groups — підзаголовки всередині палітри; custom: true — плитка без фото («Свій напис», відкриває поле тексту)
   colors: {
+    print: {
+      folder: "malyunok",
+      label: "Малюнки",
+      pick: "Обрати малюнок",
+      hint: "Натисніть на малюнок, щоб додати. Можна кілька.",
+      groups: [
+        { id: "newborn", label: "На виписку" },
+        { id: "text", label: "З написом" },
+        { id: "picture", label: "З малюнком" },
+      ],
+      items: [
+        { id: "01", name: "Ми тебе дуже чекали", hex: "#f4f4f4", group: "newborn" },
+        { id: "02", name: "Baby boy з ведмедиками", hex: "#cfe4f5", group: "newborn" },
+        { id: "03", name: "Baby girl з ведмедиками", hex: "#f6d6df", group: "newborn" },
+        { id: "04", name: "Хлопчик", hex: "#4f6fc8", group: "newborn" },
+        { id: "05", name: "Дівчинка", hex: "#e86ab4", group: "newborn" },
+        { id: "06", name: "Дякую за донечку / синочка", hex: "#c9ddf3", group: "newborn" },
+        { id: "custom", name: "Свій напис", hex: "#fbf3ec", group: "text", custom: true },
+        { id: "07", name: "З Днем народження, класичний", hex: "#f4f4f4", group: "text" },
+        { id: "08", name: "З Днем народження з бантом, рожевий", hex: "#f6d9e3", group: "text" },
+        { id: "09", name: "З Днем народження з бантом, кремовий", hex: "#f6ece3", group: "text" },
+        { id: "10", name: "З Днем народження, золоті зірки", hex: "#f4f4f4", group: "text" },
+        { id: "11", name: "З Днем народження з поцілунком", hex: "#f4f4f4", group: "text" },
+        { id: "12", name: "З Днем народження, пастельний мікс", hex: "#e3d6f2", group: "text" },
+        { id: "13", name: "З Днем народження, чорний із золотом", hex: "#1c1c1c", group: "text" },
+        { id: "14", name: "З Днем народження, Красуня!", hex: "#f6d3df", group: "text" },
+        { id: "15", name: "З днем народження, Королево!", hex: "#f6d3df", group: "text" },
+        { id: "16", name: "Happy birthday, білий і чорний", hex: "#f4f4f4", group: "text" },
+        { id: "17", name: "Happy Birthday to you, чорний", hex: "#1c1c1c", group: "text" },
+        { id: "18", name: "Happy Birthday to you, білий", hex: "#f4f4f4", group: "text" },
+        { id: "19", name: "Майнкрафт, Стів", hex: "#e9eef0", group: "picture" },
+        { id: "20", name: "Майнкрафт, логотип", hex: "#2fb43a", group: "picture" },
+        { id: "21", name: "Майнкрафт, Кріпер", hex: "#2fb43a", group: "picture" },
+        { id: "22", name: "Майнкрафт, TNT з динамітом", hex: "#d42a2a", group: "picture" },
+        { id: "23", name: "Майнкрафт, TNT", hex: "#d42a2a", group: "picture" },
+        { id: "24", name: "Роблокс", hex: "#d42a2a", group: "picture" },
+        { id: "25", name: "Щенячий патруль, червоний", hex: "#d42a2a", group: "picture" },
+        { id: "26", name: "Щенячий патруль, жовтий", hex: "#f2c531", group: "picture" },
+        { id: "27", name: "Щенячий патруль, синій", hex: "#3b6fc0", group: "picture" },
+        { id: "28", name: "Щенячий патруль, рожевий", hex: "#e061ad", group: "picture" },
+        { id: "29", name: "Гаррі Поттер", hex: "#2f8a4a", group: "picture" },
+        { id: "30", name: "Стіч", hex: "#4a6fd0", group: "picture" },
+      ],
+    },
     plain: {
       folder: "zvychaini",
       items: [

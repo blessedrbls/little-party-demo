@@ -15,7 +15,7 @@ A website for a small balloon decoration studio in Troieshchyna, Kyiv. Customers
 - **Ready-made sets.** 16 real photos sorted by category (1st birthday, boys, girls, newborn, ceiling) with filter tabs, a click-to-zoom lightbox and "from X UAH" prices. How each price was counted is in [`prices-to-confirm.md`](prices-to-confirm.md).
 - **Set builder.** Occasion, latex balloons, foil balloons, bubbles with a custom inscription and number balloons (70 or 100 cm, each digit priced separately). The total updates as you go. On mobile it sits in a sticky bottom panel.
 - **Balloon colours.** For each latex type (plain, chrome, confetti, agate, brush) the customer taps colour circles made from real photos and sets a quantity per colour. The chosen colours go into the order.
-- **Inscriptions.** Printed latex balloons and bubbles get a "text of the inscription" field.
+- **Printed balloons.** A catalogue of 30 prints in three groups (newborn, inscriptions, pictures) plus a "custom inscription" tile. Bubbles get a "text of the inscription" field too.
 - **Delivery.** Free in Troieshchyna from 700 UAH, outside Troieshchyna priced by distance, or pickup at Hradynska St, 7.
 - **Date and time.** Orders are taken 07:00–22:00, so the time picker only offers those slots. The date field reminds to order 2–3 days ahead and notes that same-day orders are possible.
 - **Orders to Telegram.** Through a small Cloudflare Worker (see [`worker/README.md`](worker/README.md)). Without it the form runs in demo mode.
@@ -32,7 +32,7 @@ style.css             styles (mobile-first), colours match the logo
 script.js             tabs, builder, colour picker, lightbox, order form, sheet loader
 data.js               prices, sets, colour palettes, contacts
 images/               set photos, logo, favicon
-colors/<type>/        balloon colour photos (originals), sm/ — 128 px thumbnails used on the site
+colors/<type>/        balloon colour and print photos (originals), sm/ — thumbnails used on the site
 worker/               Cloudflare Worker that forwards orders to Telegram
 prices-to-confirm.md  how the set prices were estimated, for the client to confirm
 ```

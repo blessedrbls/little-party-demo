@@ -449,6 +449,16 @@ dialog::backdrop { background: rgba(40, 28, 60, .55); backdrop-filter: blur(4px)
 .swatch img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; transform: scale(1.18); clip-path: circle(42.5%); }
 .swatch:active { transform: scale(.92); }
 .swatch[aria-pressed="true"] { box-shadow: 0 0 0 3px var(--surface), 0 0 0 5px var(--pink-deep); }
+.swatch-group { display: grid; gap: 8px; }
+.swatch-group + .swatch-group { margin-top: 4px; }
+.swatch-group__title { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-deep); }
+.swatches--tiles { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); }
+.swatches--tiles .swatch { border-radius: var(--radius-sm); background: #fff; }
+.swatches--tiles .swatch img { border-radius: inherit; transform: none; clip-path: none; object-fit: cover; }
+.swatch--custom { display: grid; place-items: center; background: var(--c, #fbf3ec) !important; border: 1.5px dashed var(--gold-soft) !important; }
+.swatch__custom { display: grid; justify-items: center; gap: 2px; padding: 6px; font-size: 12px; font-weight: 700; line-height: 1.2; color: var(--text); text-align: center; }
+.swatch__custom b { font-family: var(--font-display); font-size: 22px; color: var(--gold-deep); }
+.picked__dot--custom { display: grid; place-items: center; font-family: var(--font-display); font-size: 12px; font-weight: 700; color: var(--gold-deep); }
 .swatch__qty {
   position: absolute; right: -4px; top: -4px; min-width: 22px; height: 22px; padding: 0 6px; border-radius: 99px;
   display: grid; place-items: center; background: var(--pink-deep); color: #fff; font-size: 12px; font-weight: 700;
