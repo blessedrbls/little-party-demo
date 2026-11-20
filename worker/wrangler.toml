@@ -1,0 +1,8 @@
+# Конфіг для деплою через Wrangler (необов'язково — можна і через панель Cloudflare).
+# Токен і chat id сюди НЕ пишемо: вони задаються як секрети (див. README.md).
+name = "little-party-orders"
+main = "worker.js"
+compatibility_date = "2026-11-01"
+
+[vars]
+ALLOWED_ORIGINS = "https://blessedrbls.github.io"

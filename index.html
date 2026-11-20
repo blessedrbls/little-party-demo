@@ -5,22 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Little Party Studio — повітряні кульки на Троєщині</title>
   <meta name="description" content="Повітряні кульки на Троєщині, Київ. Набори на день народження, виписку та свята. Безкоштовна доставка по Троєщині від 700 грн.">
-  <meta name="theme-color" content="#f8f1ea">
+  <meta name="theme-color" content="#f6f3fb">
   <meta property="og:title" content="Little Party Studio — повітряні кульки на Троєщині">
   <meta property="og:description" content="Набори на день народження, виписку та свята. Безкоштовна доставка по Троєщині від 700 грн.">
   <meta property="og:image" content="https://blessedrbls.github.io/little-party-demo/images/set-16.jpg">
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8E%88%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=2">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 <body>
 
   <header class="header">
     <div class="container header__inner">
       <a class="logo" href="#top" aria-label="Little Party Studio — на початок">
-        <span class="logo__mark" aria-hidden="true"></span>
+        <img class="logo__img" src="images/logo.png" alt="" width="217" height="220">
         <span class="logo__text">Little Party <em>Studio</em></span>
       </a>
       <nav class="nav" aria-label="Розділи">
@@ -107,7 +108,12 @@
             </div>
 
             <div class="step">
-              <h3 class="step__title"><span class="step__num">4</span>Цифри</h3>
+              <h3 class="step__title"><span class="step__num">4</span>Бабли з написом</h3>
+              <ul class="items" id="bubble-list"></ul>
+            </div>
+
+            <div class="step">
+              <h3 class="step__title"><span class="step__num">5</span>Цифри</h3>
               <div class="numbers">
                 <label class="field">
                   <span class="field__label">Які цифри потрібні?</span>
@@ -150,7 +156,12 @@
           <div class="contacts__text">
             <p class="eyebrow">Контакти</p>
             <h2>Зв'яжіться з нами</h2>
-            <p class="section__sub">Київ, район <strong>Троєщина</strong>. Безкоштовна доставка по Троєщині від 700&nbsp;грн.</p>
+            <p class="section__sub">Київ, район <strong>Троєщина</strong>. Безкоштовна доставка по Троєщині від 700&nbsp;грн, за межі Троєщини — за відстанню.</p>
+            <p class="pickup">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s7-6.2 7-12a7 7 0 1 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
+              <span>Самовивіз: <strong data-pickup></strong></span>
+            </p>
+            <p class="hours">Замовлення приймаємо з 7:00 до 22:00. Бажано за 2–3 дні.</p>
             <ul class="phones" id="phones"></ul>
             <a class="insta" id="insta" href="#" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
@@ -158,11 +169,11 @@
             </a>
           </div>
           <div class="contacts__actions">
-            <a class="btn btn--viber btn--lg btn--block" id="viber" href="#">
+            <a class="btn btn--viber btn--lg btn--block" data-viber href="#">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2C6.9 2 3 5.4 3 10.2c0 2.7 1.3 5 3.4 6.5V21l3.6-2.2c.6.1 1.3.2 2 .2 5.1 0 9-3.4 9-8.2S17.1 2 12 2z"/></svg>
               Написати у Viber
             </a>
-            <a class="btn btn--telegram btn--lg btn--block" id="telegram" href="#" target="_blank" rel="noopener">
+            <a class="btn btn--telegram btn--lg btn--block" data-telegram href="#" target="_blank" rel="noopener">
               <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21.5 3.5 2.8 10.7c-.9.4-.9 1.6.1 1.9l4.6 1.4 1.8 5.6c.2.7 1.1.9 1.6.4l2.6-2.4 4.8 3.5c.6.4 1.4.1 1.6-.6l3-15.6c.2-.9-.7-1.6-1.4-1.4zM9.6 14.4l-.5 3.6-1.3-4.3 9.6-6.3-7.8 7z"/></svg>
               Написати у Telegram
             </a>
@@ -222,17 +233,18 @@
         </label>
         <label class="field">
           <span class="field__label">Час</span>
-          <input class="input" name="time" type="time" step="900">
+          <select class="input" name="time"></select>
         </label>
       </div>
+      <p class="field__hint" id="date-hint">Бажано замовляти за 2–3 дні</p>
 
-      <div class="field">
-        <span class="field__label">Отримання</span>
-        <div class="segmented segmented--wide">
-          <label><input type="radio" name="delivery" value="delivery" checked><span>Доставка</span></label>
-          <label><input type="radio" name="delivery" value="pickup"><span>Самовивіз</span></label>
-        </div>
-      </div>
+      <fieldset class="field choice">
+        <legend class="field__label">Отримання</legend>
+        <label class="choice__opt"><input type="radio" name="delivery" value="troieshchyna" checked><span><strong>Доставка по Троєщині</strong><small>безкоштовно від <span data-free-from></span></small></span></label>
+        <label class="choice__opt"><input type="radio" name="delivery" value="outside"><span><strong>Доставка за межі Троєщини</strong><small>за відстанню, уточнить менеджер</small></span></label>
+        <label class="choice__opt"><input type="radio" name="delivery" value="pickup"><span><strong>Самовивіз</strong><small data-pickup></small></span></label>
+        <p class="field__hint" id="delivery-hint"></p>
+      </fieldset>
 
       <label class="field" id="address-field">
         <span class="field__label">Адреса доставки *</span>
@@ -242,11 +254,13 @@
 
       <label class="field">
         <span class="field__label">Коментар</span>
-        <textarea class="input" name="comment" rows="3" placeholder="кольори, напис на кульці, побажання"></textarea>
+        <textarea class="input" name="comment" rows="3" maxlength="1000" placeholder="побажання, під'їзд, кому подзвонити"></textarea>
       </label>
 
+      <label class="hp" aria-hidden="true">Не заповнюйте це поле <input name="website" type="text" tabindex="-1" autocomplete="off"></label>
+
       <button class="btn btn--primary btn--lg btn--block" type="submit">Відправити заявку</button>
-      <p class="order__demo">Демо: заявка нікуди не надсилається</p>
+      <p class="order__demo" id="order-demo">Демо: заявка нікуди не надсилається</p>
     </form>
 
     <div class="success" id="order-success" hidden>
@@ -255,9 +269,20 @@
       <p>Заявка прийнята, ми зв'яжемося з вами</p>
       <button class="btn btn--primary btn--lg" type="button" data-close>Добре</button>
     </div>
+
+    <div class="success" id="order-error" hidden>
+      <div class="success__icon" aria-hidden="true">😔</div>
+      <h2>Не вдалося відправити</h2>
+      <p>Напишіть нам у Viber або Telegram — ми швидко відповімо</p>
+      <div class="error__actions">
+        <a class="btn btn--viber btn--lg btn--block" data-viber href="#">Написати у Viber</a>
+        <a class="btn btn--telegram btn--lg btn--block" data-telegram href="#" target="_blank" rel="noopener">Написати у Telegram</a>
+        <button class="btn btn--ghost btn--lg btn--block" type="button" id="order-retry">Спробувати ще раз</button>
+      </div>
+    </div>
   </dialog>
 
-  <script src="data.js?v=2"></script>
-  <script src="script.js?v=2"></script>
+  <script src="data.js?v=3"></script>
+  <script src="script.js?v=3"></script>
 </body>
 </html>
