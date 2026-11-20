@@ -139,7 +139,10 @@
       if (x.palette) state.colors[x.id] = state.colors[x.id] || {};
       else state.latex[x.id] = state.latex[x.id] || 0;
     });
-    SHOP.foil.forEach((x) => (state.foil[x.id] = state.foil[x.id] || 0));
+    SHOP.foil.forEach((x) => {
+      if (x.palette) state.colors[x.id] = state.colors[x.id] || {};
+      else state.foil[x.id] = state.foil[x.id] || 0;
+    });
     SHOP.bubbles.forEach((x) => (state.bubbles[x.id] = state.bubbles[x.id] || 0));
     if (!SHOP.numberSizes.some((s) => s.id === state.size)) state.size = SHOP.numberSizes[0].id;
   }
@@ -148,7 +151,9 @@
   const findItem = (group, id) => groupItems(group).find((x) => x.id === id);
   const palette = (x) => (x.palette && SHOP.colors[x.palette]) || null;
   const colorQty = (id) => Object.values(state.colors[id] || {}).reduce((a, b) => a + b, 0);
-  const qtyOf = (group, x) => (group === "latex" && palette(x) ? colorQty(x.id) : state[group][x.id] || 0);
+  const qtyOf = (group, x) => (palette(x) ? colorQty(x.id) : state[group][x.id] || 0);
+  // Палітри є в латексі й фольгі; id позицій у цих групах не перетинаються
+  const paletteGroup = (id) => ["latex", "foil"].find((g) => SHOP[g].some((x) => x.id === id && x.palette)) || "latex";
   const swatchSrc = (pal, c) => `colors/${pal.folder}/sm/${c.id}.jpg`;
 
   const icons = {
@@ -186,7 +191,7 @@
   }
 
   function itemHtml(group, x) {
-    const pal = group === "latex" ? palette(x) : null;
+    const pal = palette(x);
     const qty = qtyOf(group, x);
     const sub = x.size ? `${esc(x.size)} · ${x.from ? "від " : ""}${x.price} грн` : priceLabel(x);
 
@@ -209,7 +214,7 @@
     const picked = pal.items.filter((c) => state.colors[x.id][c.id] > 0);
     const badge = qty ? `${qty} шт.` : pal.pick || "Обрати кольори";
     return `
-      <li class="item item--palette${qty > 0 ? " is-active" : ""}${open ? " is-open" : ""}" data-group="latex" data-id="${esc(x.id)}">
+      <li class="item item--palette${qty > 0 ? " is-active" : ""}${open ? " is-open" : ""}" data-group="${group}" data-id="${esc(x.id)}">
         <button class="item__row item__toggle" type="button" data-toggle="${esc(x.id)}" aria-expanded="${open}" aria-controls="pal-${esc(x.id)}">
           ${visualHtml(group, x)}
           <span>
@@ -235,7 +240,7 @@
                   .join("")}</ul>`
               : ""
           }
-          ${inscriptionHtml("latex", x, state.colors[x.id].custom || 0)}
+          ${inscriptionHtml(group, x, state.colors[x.id].custom || 0)}
         </div>
       </li>`;
   }
@@ -264,7 +269,7 @@
         return `
           <div class="swatch-group" data-sgroup="${esc(x.id)}:${esc(g.id)}">
             <p class="swatch-group__title">${esc(g.label)}</p>
-            <div class="swatches swatches--tiles" role="group" aria-label="${esc(`${g.label}: ${x.name}`)}">${tiles(list)}</div>
+            <div class="swatches swatches--tiles${pal.compact ? " swatches--compact" : ""}" role="group" aria-label="${esc(`${g.label}: ${x.name}`)}">${tiles(list)}</div>
           </div>`;
       })
       .join("");
@@ -318,20 +323,21 @@
   function calc() {
     const lines = [];
     const textOf = (key) => (state.text[key] || "").trim();
-    SHOP.latex.forEach((x) => {
-      const pal = palette(x);
-      const q = qtyOf("latex", x);
-      if (!q) return;
-      let detail = "";
-      if (pal) {
-        detail = pal.items
+    const paletteDetail = (group, x) =>
+      palette(x).items
           .filter((c) => state.colors[x.id][c.id] > 0)
           .map((c) => {
-            const t = c.custom ? textOf(`latex:${x.id}`) : "";
+            const t = c.custom ? textOf(`${group}:${x.id}`) : "";
             const name = c.custom ? (t ? `напис «${t}»` : "свій напис: уточнити") : c.name;
             return `${name} × ${state.colors[x.id][c.id]}`;
           })
           .join(", ");
+    SHOP.latex.forEach((x) => {
+      const q = qtyOf("latex", x);
+      if (!q) return;
+      let detail = "";
+      if (palette(x)) {
+        detail = paletteDetail("latex", x);
       } else if (x.inscription) {
         const t = textOf(`latex:${x.id}`);
         detail = t ? `напис: «${t}»` : "напис / малюнок: уточнити";
@@ -339,8 +345,8 @@
       lines.push({ name: `Латексні «${x.name}»`, qty: q, sum: q * x.price, from: !!x.from, detail });
     });
     SHOP.foil.forEach((x) => {
-      const q = state.foil[x.id];
-      if (q) lines.push({ name: `Фольговані «${x.name}»`, qty: q, sum: q * x.price, from: !!x.from, detail: "" });
+      const q = qtyOf("foil", x);
+      if (q) lines.push({ name: `Фольговані «${x.name}»`, qty: q, sum: q * x.price, from: !!x.from, detail: palette(x) ? paletteDetail("foil", x) : "" });
     });
     SHOP.bubbles.forEach((x) => {
       const q = state.bubbles[x.id];
@@ -465,7 +471,7 @@
       if (toggle) {
         const id = toggle.dataset.toggle;
         state.open[id] = !state.open[id];
-        refreshItem("latex", id, `[data-toggle]`);
+        refreshItem(paletteGroup(id), id, `[data-toggle]`);
         return;
       }
       // Тап по кольору: додати 1 шт. (якщо ще не вибраний) або прибрати
@@ -475,7 +481,7 @@
         const cur = state.colors[id][cid] || 0;
         if (cur > 0) delete state.colors[id][cid];
         else state.colors[id][cid] = 1;
-        refreshItem("latex", id, `[data-color="${CSS.escape(sw.dataset.color)}"]`);
+        refreshItem(paletteGroup(id), id, `[data-color="${CSS.escape(sw.dataset.color)}"]`);
         updateSummary();
         return;
       }
@@ -486,7 +492,7 @@
         const next = clampQty((state.colors[id][cid] || 0) + Number(cstep.dataset.delta));
         if (next) state.colors[id][cid] = next;
         else delete state.colors[id][cid];
-        refreshItem("latex", id, next ? `[data-cstep="${CSS.escape(cstep.dataset.cstep)}"][data-delta="${cstep.dataset.delta}"]` : `[data-color="${CSS.escape(cstep.dataset.cstep)}"]`);
+        refreshItem(paletteGroup(id), id, next ? `[data-cstep="${CSS.escape(cstep.dataset.cstep)}"][data-delta="${cstep.dataset.delta}"]` : `[data-color="${CSS.escape(cstep.dataset.cstep)}"]`);
         updateSummary();
         return;
       }

@@ -454,7 +454,9 @@ dialog::backdrop { background: rgba(40, 28, 60, .55); backdrop-filter: blur(4px)
 .swatch-group__title { font-size: 13px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-deep); }
 .swatches--tiles { grid-template-columns: repeat(auto-fill, minmax(84px, 1fr)); }
 .swatches--tiles .swatch { border-radius: var(--radius-sm); background: #fff; }
+.swatches--compact { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); gap: 8px; }
 .swatches--tiles .swatch img { border-radius: inherit; transform: none; clip-path: none; object-fit: cover; }
+.swatches--compact .swatch img { object-fit: contain; padding: 4px; }
 .swatch--custom { display: grid; place-items: center; background: var(--c, #fbf3ec) !important; border: 1.5px dashed var(--gold-soft) !important; }
 .swatch__custom { display: grid; justify-items: center; gap: 2px; padding: 6px; font-size: 12px; font-weight: 700; line-height: 1.2; color: var(--text); text-align: center; }
 .swatch__custom b { font-family: var(--font-display); font-size: 22px; color: var(--gold-deep); }
