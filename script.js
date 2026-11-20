@@ -423,16 +423,19 @@
       <button type="button" data-ref-clear aria-label="Прибрати зразок">×</button>`;
   }
 
-  // Привід може розгорнути потрібну палітру (наприклад, «Виписка» → малюнки «На виписку»)
+  // Привід може розгорнути потрібні палітри (наприклад, «Виписка» → малюнки «На виписку»).
+  // shows — один запис або масив { item, group }; прокручуємо до першого
   function showOccasionItems(scroll) {
-    const shows = SHOP.occasions.find((o) => o.id === state.occasion)?.shows;
-    if (!shows || !findItem("latex", shows.item)) return;
-    if (!state.open[shows.item]) {
-      state.open[shows.item] = true;
-      refreshItem("latex", shows.item);
-    }
-    if (!scroll) return;
-    const target = $(`[data-sgroup="${CSS.escape(`${shows.item}:${shows.group}`)}"]`) || $(`.item[data-id="${CSS.escape(shows.item)}"]`);
+    const raw = SHOP.occasions.find((o) => o.id === state.occasion)?.shows;
+    const list = (Array.isArray(raw) ? raw : raw ? [raw] : []).filter((sh) => SHOP[paletteGroup(sh.item)].some((x) => x.id === sh.item && x.palette));
+    list.forEach((sh) => {
+      if (state.open[sh.item]) return;
+      state.open[sh.item] = true;
+      refreshItem(paletteGroup(sh.item), sh.item);
+    });
+    if (!scroll || !list.length) return;
+    const first = list[0];
+    const target = $(`[data-sgroup="${CSS.escape(`${first.item}:${first.group}`)}"]`) || $(`.item[data-id="${CSS.escape(first.item)}"]`);
     target?.scrollIntoView({ behavior: "smooth", block: "center" });
   }
 
