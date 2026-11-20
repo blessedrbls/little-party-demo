@@ -262,7 +262,7 @@
         const list = pal.items.filter((c) => c.group === g.id);
         if (!list.length) return "";
         return `
-          <div class="swatch-group">
+          <div class="swatch-group" data-sgroup="${esc(x.id)}:${esc(g.id)}">
             <p class="swatch-group__title">${esc(g.label)}</p>
             <div class="swatches swatches--tiles" role="group" aria-label="${esc(`${g.label}: ${x.name}`)}">${tiles(list)}</div>
           </div>`;
@@ -417,12 +417,26 @@
       <button type="button" data-ref-clear aria-label="Прибрати зразок">×</button>`;
   }
 
+  // Привід може розгорнути потрібну палітру (наприклад, «Виписка» → малюнки «На виписку»)
+  function showOccasionItems(scroll) {
+    const shows = SHOP.occasions.find((o) => o.id === state.occasion)?.shows;
+    if (!shows || !findItem("latex", shows.item)) return;
+    if (!state.open[shows.item]) {
+      state.open[shows.item] = true;
+      refreshItem("latex", shows.item);
+    }
+    if (!scroll) return;
+    const target = $(`[data-sgroup="${CSS.escape(`${shows.item}:${shows.group}`)}"]`) || $(`.item[data-id="${CSS.escape(shows.item)}"]`);
+    target?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+
   function startSimilar(set) {
     state.occasion = set.occasion;
     state.ref = set;
     const radio = $(`input[name="occasion"][value="${set.occasion}"]`);
     if (radio) radio.checked = true;
     renderRef();
+    showOccasionItems(false);
     $("#builder").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
@@ -431,7 +445,10 @@
   function initBuilder() {
     renderBuilder();
 
-    $("#occasions").addEventListener("change", (e) => (state.occasion = e.target.value));
+    $("#occasions").addEventListener("change", (e) => {
+      state.occasion = e.target.value;
+      showOccasionItems(true);
+    });
 
     $(".builder__steps").addEventListener("click", (e) => {
       // Звичайний лічильник: латекс без палітри, фольга, бабли

@@ -27,7 +27,7 @@ const SHOP = {
   // Приводи в конструкторі
   occasions: [
     { id: "first", label: "1 рік", emoji: "🎂" },
-    { id: "newborn", label: "Виписка", emoji: "👶" },
+    { id: "newborn", label: "Виписка", emoji: "👶", shows: { item: "print", group: "newborn" } }, // при виборі розгортає малюнки «На виписку»
     { id: "birthday", label: "День народження", emoji: "🎉" },
     { id: "other", label: "Інше", emoji: "✨" },
   ],
