@@ -338,6 +338,20 @@ textarea.input { resize: vertical; min-height: 88px; }
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .25));
 }
 .numbers__picked { font-weight: 500; }
+.num-list { display: grid; gap: 14px; }
+.num-entry { display: grid; gap: 14px; }
+.num-entry--many { padding: 14px; border: 1.5px solid var(--line); border-radius: var(--radius-sm); }
+.num-entry__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-weight: 700; }
+.num-entry__remove {
+  min-height: 36px; padding: 6px 12px; border: 0; border-radius: 999px; background: var(--bg); font: inherit; font-size: 14px;
+  font-weight: 600; color: var(--text-soft); cursor: pointer;
+}
+.num-entry__preview { display: grid; gap: 14px; }
+.num-add {
+  justify-self: start; min-height: 44px; padding: 10px 16px; border: 1.5px dashed var(--gold-soft); border-radius: 999px;
+  background: transparent; font: inherit; font-weight: 600; color: var(--gold-deep); cursor: pointer; text-align: left;
+}
+.num-add[hidden] { display: none; }
 .num-targets { display: flex; flex-wrap: wrap; gap: 6px; }
 .num-target {
   display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 14px; border-radius: 999px;
