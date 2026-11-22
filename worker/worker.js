@@ -83,6 +83,7 @@ function validate(d) {
   const time = str(d.time, 20);
   const delivery = str(d.delivery, 40);
   const contact = str(d.contact, 40);
+  const tg = str(d.tg, 40).replace(/^@/, "");
   const address = str(d.address, 200);
   const comment = str(d.comment, 1000);
   const total = str(d.total, 40);
@@ -94,13 +95,24 @@ function validate(d) {
   if (time && !/^(\d{2}:\d{2}|будь-який)$/.test(time)) return { ok: false, error: "time" };
   if (!DELIVERY.includes(delivery)) return { ok: false, error: "delivery" };
   if (contact && !CONTACT.includes(contact)) return { ok: false, error: "contact" };
+  if (tg && !/^[A-Za-z][A-Za-z0-9_]{4,31}$/.test(tg)) return { ok: false, error: "tg" };
   if (delivery !== "Самовивіз" && address.length < 3) return { ok: false, error: "address" };
   if (!items.length) return { ok: false, error: "items" };
 
-  return { ok: true, value: { name, phone, contact, date, time, delivery, address, comment, total, items } };
+  return { ok: true, value: { name, phone, contact, tg, date, time, delivery, address, comment, total, items } };
 }
 
 const h = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
+
+// Посилання, щоб одразу відкрити чат з клієнтом
+function contactLine(o) {
+  const c = h(o.contact || "—");
+  if (o.contact !== "Написати в Telegram") return c;
+  const byPhone = `<a href="https://t.me/+${o.phone.replace(/\D/g, "")}">за номером</a>`;
+  return o.tg
+    ? `${c} — <a href="https://t.me/${o.tg}">@${h(o.tg)}</a> (або ${byPhone})`
+    : `${c} — ${byPhone}, ніку не вказано; якщо не знайдеться — зателефонуйте`;
+}
 
 function format(o) {
   const [y, m, d] = o.date.split("-");
@@ -113,7 +125,7 @@ function format(o) {
     "",
     `<b>Ім'я:</b> ${h(o.name)}`,
     `<b>Телефон:</b> ${h(o.phone)}`,
-    `<b>Зв'язок:</b> ${h(o.contact || "—")}`,
+    `<b>Зв'язок:</b> ${contactLine(o)}`,
     `<b>Дата:</b> ${d}.${m}.${y}`,
     `<b>Час:</b> ${h(o.time || "будь-який")}`,
     `<b>Отримання:</b> ${h(o.delivery)}`,

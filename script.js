@@ -728,6 +728,16 @@
     else if (d.length === 10 && d.startsWith("0")) d = d.slice(1);
     return d.slice(0, 9);
   };
+  // Нік Telegram: приймаємо @nick, nick або посилання t.me/nick
+  const tgNick = (v) => v.trim().replace(/^(https?:\/\/)?(t(elegram)?\.me\/)/i, "").replace(/^@/, "").replace(/\/.*$/, "");
+  const tgOk = (n) => !n || /^[A-Za-z][A-Za-z0-9_]{4,31}$/.test(n);
+
+  function updateContact() {
+    const c = form.contact.value;
+    $("#contact-hint").hidden = c === "call";
+    $("#tg-field").hidden = c !== "telegram";
+  }
+
   const formatPhone = (d) => [d.slice(0, 2), d.slice(2, 5), d.slice(5, 7), d.slice(7, 9)].filter(Boolean).join(" ");
 
   function localISO(d = new Date()) {
@@ -812,6 +822,7 @@
     };
     check(form.name, form.name.value.trim().length >= 2);
     check(form.phone, phoneDigits(form.phone.value).length === 9);
+    if (form.contact.value === "telegram") check(form.tg, tgOk(tgNick(form.tg.value)));
     check(form.date, !!form.date.value && form.date.value >= form.date.min);
     if (form.address.required) check(form.address, form.address.value.trim().length >= 3);
     if (firstBad) firstBad.focus();
@@ -826,6 +837,7 @@
       name: form.name.value.trim(),
       phone: `+380${phoneDigits(form.phone.value)}`,
       contact: CONTACT[form.contact.value] || CONTACT.call,
+      tg: form.contact.value === "telegram" ? tgNick(form.tg.value) : "",
       date: form.date.value,
       time: form.time.value || "будь-який",
       delivery: DELIVERY[v],
@@ -855,6 +867,7 @@
     $("#order-demo").hidden = !!WORKER_URL;
     form.addEventListener("change", (e) => {
       if (e.target.name === "delivery") updateDelivery();
+      if (e.target.name === "contact") updateContact();
       if (e.target.name === "date") updateDateHint();
     });
     form.phone.addEventListener("input", () => {
@@ -885,6 +898,7 @@
       // Без WORKER_URL — демо: дані нікуди не надсилаються
       form.reset();
       updateDelivery();
+      updateContact();
       showPanel("success");
     });
     $("#order-retry").addEventListener("click", () => showPanel("form"));

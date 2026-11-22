@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=16">
+  <link rel="stylesheet" href="style.css?v=17">
 </head>
 <body>
 
@@ -227,7 +227,15 @@
           <label><input type="radio" name="contact" value="telegram"><span>Telegram</span></label>
           <label><input type="radio" name="contact" value="viber"><span>Viber</span></label>
         </div>
+        <p class="field__hint" id="contact-hint" hidden>Якщо не вийде написати — зателефонуємо.</p>
       </fieldset>
+
+      <label class="field" id="tg-field" hidden>
+        <span class="field__label">Ваш нік у Telegram</span>
+        <input class="input" name="tg" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" maxlength="40" placeholder="@anna_k">
+        <span class="field__hint field__hint--below">Необов'язково, але так ми точно зможемо написати: не всіх можна знайти за номером.</span>
+        <span class="field__error">Нік — це 5–32 латинські літери, цифри або _</span>
+      </label>
 
       <div class="field-row">
         <label class="field">
@@ -286,7 +294,7 @@
     </div>
   </dialog>
 
-  <script src="data.js?v=16"></script>
-  <script src="script.js?v=16"></script>
+  <script src="data.js?v=17"></script>
+  <script src="script.js?v=17"></script>
 </body>
 </html>

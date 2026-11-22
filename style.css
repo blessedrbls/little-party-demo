@@ -533,6 +533,8 @@ select.input { appearance: none; -webkit-appearance: none; padding-right: 40px; 
 }
 .phone__input { padding-left: 60px; letter-spacing: .02em; }
 .contact-pick span { padding: 8px 10px; }
+.field__hint--below { margin-top: 0; }
+.contact-pick + .field__hint { margin-top: 2px; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .error__actions { display: grid; gap: 10px; width: 100%; max-width: 360px; }
 
