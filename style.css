@@ -333,6 +333,12 @@ textarea.input { resize: vertical; min-height: 88px; }
   animation: pop .25s ease;
 }
 .digit--100 { font-size: 64px; }
+.digit--tint {
+  background-image: linear-gradient(160deg, color-mix(in srgb, var(--c) 35%, #fff), var(--c) 55%, color-mix(in srgb, var(--c) 75%, #000));
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .25));
+}
+.numbers__picked { font-weight: 500; }
+.swatches--digits .swatch img { padding: 2px; }
 @keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
 .numbers__hint { font-size: 14px; color: var(--text-soft); }
 
