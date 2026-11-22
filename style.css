@@ -338,6 +338,14 @@ textarea.input { resize: vertical; min-height: 88px; }
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .25));
 }
 .numbers__picked { font-weight: 500; }
+.num-targets { display: flex; flex-wrap: wrap; gap: 6px; }
+.num-target {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 14px; border-radius: 999px;
+  border: 1.5px solid var(--line); background: var(--surface); font: inherit; font-weight: 600; color: var(--text); cursor: pointer;
+}
+.num-target--digit { font-family: var(--font-display); font-size: 18px; }
+.num-target[aria-selected="true"] { border-color: var(--pink-deep); box-shadow: 0 0 0 2px var(--pink-soft, rgba(208, 36, 111, .15)); }
+.num-target i { width: 16px; height: 16px; border-radius: 50%; background: var(--c) center / 260% no-repeat; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .1); }
 .swatches--digits .swatch img { padding: 2px; }
 @keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
 .numbers__hint { font-size: 14px; color: var(--text-soft); }

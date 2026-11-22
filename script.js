@@ -130,7 +130,8 @@
     open: {}, // які палітри розгорнуті
     digits: "",
     size: SHOP.numberSizes[0].id,
-    numColor: {}, // { "70": "03" } — колір цифр окремо для кожного розміру
+    numColor: {}, // { "70": ["03", "05"] } — колір кожної цифри (за позицією) окремо для кожного розміру
+    numTarget: "all", // куди ставимо колір: "all" або номер цифри 0..3
     ref: null,
   };
 
@@ -322,16 +323,43 @@
     renderNumColors();
   }
 
-  // Колір цифр: палітра поточного розміру й обраний у ній колір
+  // Колір цифр: палітра поточного розміру; кольори зберігаються по позиції цифри
   const numPalette = () => palette(SHOP.numberSizes.find((s) => s.id === state.size) || {});
-  const numColor = () => numPalette()?.items.find((c) => c.id === state.numColor[state.size]) || null;
+  const numCols = () => (state.numColor[state.size] = state.numColor[state.size] || []);
+  const colorById = (id) => numPalette()?.items.find((c) => c.id === id) || null;
+  const digitColor = (i) => colorById(numCols()[i]);
+  const digitSlots = () => Math.max(state.digits.length, 1);
+  // Колір, спільний для всіх введених цифр (або null, якщо різні / не вибрано)
+  const commonColor = () => {
+    const ids = Array.from({ length: digitSlots() }, (_, i) => numCols()[i]);
+    return ids.every((id) => id && id === ids[0]) ? colorById(ids[0]) : null;
+  };
+  const targetValid = () => state.numTarget === "all" || state.numTarget < state.digits.length;
 
   function renderNumColors() {
     const pal = numPalette();
     const box = $("#num-colors");
     box.closest(".field").hidden = !pal;
     if (!pal) return;
-    const cur = state.numColor[state.size];
+    if (state.digits.length < 2 || !targetValid()) state.numTarget = "all";
+    const t = state.numTarget;
+
+    // Вкладки «Усі / 2 / 5» — тільки коли цифр більше однієї
+    const tabs = $("#num-targets");
+    tabs.hidden = state.digits.length < 2;
+    const dot = (c) => (c ? `<i style="--c:${esc(c.hex)};background-image:url('${esc(swatchSrc(pal, c))}')"></i>` : "");
+    tabs.innerHTML = tabs.hidden
+      ? ""
+      : `<button type="button" role="tab" class="num-target" data-ntarget="all" aria-selected="${t === "all"}">Усі${dot(commonColor())}</button>` +
+        [...state.digits]
+          .map(
+            (d, i) =>
+              `<button type="button" role="tab" class="num-target num-target--digit" data-ntarget="${i}" aria-selected="${t === i}" aria-label="Цифра ${i + 1}: ${d}">${d}${dot(digitColor(i))}</button>`
+          )
+          .join("");
+
+    const cur = t === "all" ? commonColor()?.id : numCols()[t];
+    box.setAttribute("aria-label", t === "all" ? "Колір усіх цифр" : `Колір цифри ${state.digits[t]}`);
     box.innerHTML = pal.items
       .map(
         (c) => `<button class="swatch" type="button" role="radio" data-ncolor="${esc(c.id)}" aria-checked="${c.id === cur}" aria-pressed="${c.id === cur}" title="${esc(c.name)}" aria-label="${esc(c.name)}" style="--c:${esc(c.hex)}">
@@ -339,7 +367,8 @@
         </button>`
       )
       .join("");
-    $("#num-color-name").textContent = numColor() ? `· ${numColor().name}` : "";
+    const name = t === "all" ? commonColor()?.name : digitColor(t)?.name;
+    $("#num-color-name").textContent = name ? `· ${name}` : t === "all" && numCols().some(Boolean) && state.digits.length > 1 ? "· різні" : "";
   }
 
   function calc() {
@@ -379,8 +408,14 @@
     const digitCount = state.digits.length;
     if (digitCount) {
       const size = SHOP.numberSizes.find((s) => s.id === state.size);
-      const c = numColor();
-      const detail = numPalette() ? `колір: ${c ? c.name.toLowerCase() : "уточнити"}` : "";
+      let detail = "";
+      if (numPalette()) {
+        const c = commonColor();
+        detail =
+          c || digitCount === 1 || !numCols().slice(0, digitCount).some(Boolean)
+            ? `колір: ${c ? c.name.toLowerCase() : "уточнити"}`
+            : [...state.digits].map((d, i) => `${d} — ${digitColor(i)?.name.toLowerCase() || "колір уточнити"}`).join(", ");
+      }
       lines.push({ name: `Цифри «${state.digits}», ${size.label}`, qty: digitCount, sum: digitCount * size.price, from: false, detail });
     }
     const total = lines.reduce((a, l) => a + l.sum, 0);
@@ -426,9 +461,12 @@
 
   function updateDigits() {
     const size = SHOP.numberSizes.find((s) => s.id === state.size);
-    const c = numColor();
-    const tint = c ? ` digit--tint" style="--c:${esc(c.hex)}` : "";
-    $("#digits-preview").innerHTML = [...state.digits].map((d) => `<span class="digit digit--${size.id}${tint}">${d}</span>`).join("");
+    $("#digits-preview").innerHTML = [...state.digits]
+      .map((d, i) => {
+        const c = numPalette() && digitColor(i);
+        return `<span class="digit digit--${size.id}${c ? ` digit--tint" style="--c:${esc(c.hex)}` : ""}">${d}</span>`;
+      })
+      .join("");
     const n = state.digits.length;
     $("#digits-hint").textContent = n
       ? `${n} ${plural(n, "цифра", "цифри", "цифр")} × ${size.price} грн = ${money(n * size.price)}`
@@ -544,6 +582,7 @@
       const clean = digits.value.replace(/\D/g, "").slice(0, 4);
       if (clean !== digits.value) digits.value = clean;
       state.digits = clean;
+      renderNumColors();
       updateDigits();
       updateSummary();
     });
@@ -555,13 +594,28 @@
       updateSummary();
     });
 
-    // Один колір на всі цифри; повторний тап знімає вибір
+    // Вибір, для якої цифри ставимо колір
+    $("#num-targets").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-ntarget]");
+      if (!b) return;
+      state.numTarget = b.dataset.ntarget === "all" ? "all" : Number(b.dataset.ntarget);
+      renderNumColors();
+      $(`[data-ntarget="${b.dataset.ntarget}"]`)?.focus({ preventScroll: true });
+    });
+
+    // Тап по кольору: ставить його на вибрану цифру або на всі; повторний тап знімає
     $("#num-colors").addEventListener("click", (e) => {
       const sw = e.target.closest("[data-ncolor]");
       if (!sw) return;
       const id = sw.dataset.ncolor;
-      if (state.numColor[state.size] === id) delete state.numColor[state.size];
-      else state.numColor[state.size] = id;
+      const cols = numCols();
+      const t = state.numTarget;
+      if (t === "all") {
+        const fill = commonColor()?.id === id ? undefined : id;
+        for (let i = 0; i < 4; i++) cols[i] = fill;
+      } else {
+        cols[t] = cols[t] === id ? undefined : id;
+      }
       renderNumColors();
       $(`[data-ncolor="${CSS.escape(id)}"]`)?.focus({ preventScroll: true });
       updateDigits();
