@@ -535,6 +535,37 @@ select.input { appearance: none; -webkit-appearance: none; padding-right: 40px; 
 .contact-pick span { padding: 8px 10px; }
 .field__hint--below { margin-top: 0; }
 .contact-pick + .field__hint { margin-top: 2px; }
+/* Дата і час — свої картки замість системних полів */
+.days {
+  display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x proximity; padding: 4px 2px 8px; margin: 0 -2px;
+  scrollbar-width: thin; -webkit-overflow-scrolling: touch;
+}
+.day {
+  flex: none; display: grid; justify-items: center; gap: 2px; width: 68px; padding: 10px 4px; scroll-snap-align: start;
+  border: 1.5px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); font: inherit; color: var(--text);
+  cursor: pointer; transition: border-color .2s, background .2s, transform .15s; -webkit-tap-highlight-color: transparent;
+}
+.day:active { transform: scale(.95); }
+.day__wd { font-size: 12px; font-weight: 600; color: var(--text-soft); white-space: nowrap; }
+.day__num { font-family: var(--font-display); font-size: 24px; font-weight: 600; line-height: 1.1; }
+.day__mon { font-size: 12px; color: var(--text-soft); }
+.day--weekend .day__wd { color: var(--pink-deep); }
+.day[aria-checked="true"] { border-color: var(--pink-deep); background: var(--pink-soft); box-shadow: inset 0 0 0 1px var(--pink-deep); }
+.field.is-invalid .day { border-color: var(--danger); }
+.times { display: grid; gap: 12px; }
+.times__group { display: grid; gap: 6px; }
+.times__label { font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-deep); }
+.times__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(70px, 1fr)); gap: 6px; }
+.time {
+  min-height: 42px; padding: 8px 6px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--surface);
+  font: inherit; font-size: 15px; font-weight: 600; color: var(--text); cursor: pointer; transition: border-color .2s, background .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.time--any { justify-self: start; padding: 8px 16px; border-radius: 999px; }
+.time--any small { margin-left: 4px; font-weight: 500; color: var(--text-soft); }
+.time[aria-checked="true"] { border-color: var(--pink-deep); background: var(--pink-soft); box-shadow: inset 0 0 0 1px var(--pink-deep); }
+.time:disabled { opacity: .35; cursor: not-allowed; text-decoration: line-through; }
+.day:focus-visible, .time:focus-visible { outline: 3px solid var(--blue-deep); outline-offset: 2px; }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .error__actions { display: grid; gap: 10px; width: 100%; max-width: 360px; }
 

@@ -751,20 +751,57 @@
   };
   const fromMin = (n) => `${String(Math.floor(n / 60)).padStart(2, "0")}:${String(n % 60).padStart(2, "0")}`;
 
+  const DAYS_AHEAD = 30;
+  const WD = ["Нд", "Пн", "Вт", "Ср", "Чт", "Пт", "Сб"];
+  const MON = ["січ", "лют", "бер", "кві", "тра", "чер", "лип", "сер", "вер", "жов", "лис", "гру"];
+
+  // Дата: стрічка карток на 30 днів уперед
+  function renderDays() {
+    const today = new Date();
+    const cur = form.date.value;
+    const cards = [];
+    for (let k = 0; k < DAYS_AHEAD; k++) {
+      const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() + k);
+      const iso = localISO(d);
+      const top = k === 0 ? "Сьогодні" : k === 1 ? "Завтра" : WD[d.getDay()];
+      const weekend = d.getDay() === 0 || d.getDay() === 6;
+      cards.push(`<button type="button" class="day${weekend ? " day--weekend" : ""}" role="radio" data-day="${iso}" aria-checked="${iso === cur}" aria-label="${top}, ${d.getDate()} ${MON[d.getMonth()]}">
+        <span class="day__wd">${top}</span><span class="day__num">${d.getDate()}</span><span class="day__mon">${MON[d.getMonth()]}</span>
+      </button>`);
+    }
+    $("#days").innerHTML = cards.join("");
+  }
+
+  // Час: «Будь-який» + слоти по 30 хв, згруповані за частиною дня; минулі сьогоднішні слоти вимкнені
   function renderTimes() {
-    const sel = form.time;
-    const prev = sel.value;
+    const prev = form.time.value;
     const isToday = form.date.value === localISO();
     const now = new Date();
     const nowMin = now.getHours() * 60 + now.getMinutes();
-    const opts = [`<option value="">Будь-який час (${SHOP.hours.from}–${SHOP.hours.to})</option>`];
+    const parts = [
+      { label: "Ранок", to: toMin("12:00") },
+      { label: "День", to: toMin("17:00") },
+      { label: "Вечір", to: Infinity },
+    ];
+    const groups = parts.map((p) => ({ ...p, slots: [] }));
     for (let t = toMin(SHOP.hours.from); t <= toMin(SHOP.hours.to); t += 30) {
-      const past = isToday && t < nowMin;
-      opts.push(`<option value="${fromMin(t)}" ${past ? "disabled" : ""}>${fromMin(t)}</option>`);
+      groups.find((g) => t < g.to).slots.push({ v: fromMin(t), past: isToday && t < nowMin });
     }
-    sel.innerHTML = opts.join("");
-    const keep = [...sel.options].find((o) => o.value === prev && !o.disabled);
-    sel.value = keep ? prev : "";
+    const keep = groups.some((g) => g.slots.some((s) => s.v === prev && !s.past));
+    if (!keep) form.time.value = "";
+    const cur = form.time.value;
+    const chip = (v, text, past) =>
+      `<button type="button" class="time${v === "" ? " time--any" : ""}" role="radio" data-time="${v}" aria-checked="${v === cur}" ${past ? "disabled" : ""}>${text}</button>`;
+    $("#times").innerHTML =
+      chip("", `Будь-який час <small>${SHOP.hours.from}–${SHOP.hours.to}</small>`, false) +
+      groups
+        .filter((g) => g.slots.length)
+        .map(
+          (g) => `<div class="times__group"><p class="times__label">${g.label}</p><div class="times__grid">${g.slots
+            .map((s) => chip(s.v, s.v, s.past))
+            .join("")}</div></div>`
+        )
+        .join("");
   }
 
   function updateDateHint() {
@@ -807,6 +844,7 @@
     $("#order-note").textContent = order.note || "";
     $$(".field.is-invalid", form).forEach((f) => f.classList.remove("is-invalid"));
     form.date.min = localISO();
+    renderDays();
     updateDateHint();
     updateDelivery();
     showPanel("form");
@@ -825,7 +863,12 @@
     if (form.contact.value === "telegram") check(form.tg, tgOk(tgNick(form.tg.value)));
     check(form.date, !!form.date.value && form.date.value >= form.date.min);
     if (form.address.required) check(form.address, form.address.value.trim().length >= 3);
-    if (firstBad) firstBad.focus();
+    if (firstBad) {
+      // Приховане поле дати — фокусуємо стрічку днів
+      const target = firstBad.type === "hidden" ? $("[data-day]", firstBad.closest(".field")) : firstBad;
+      target?.focus();
+      firstBad.closest(".field").scrollIntoView({ block: "center", behavior: "smooth" });
+    }
     return !firstBad;
   }
 
@@ -868,11 +911,27 @@
     form.addEventListener("change", (e) => {
       if (e.target.name === "delivery") updateDelivery();
       if (e.target.name === "contact") updateContact();
-      if (e.target.name === "date") updateDateHint();
+
     });
     form.phone.addEventListener("input", () => {
       const f = formatPhone(phoneDigits(form.phone.value));
       if (f !== form.phone.value) form.phone.value = f;
+    });
+    $("#days").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-day]");
+      if (!b) return;
+      form.date.value = b.dataset.day;
+      form.date.closest(".field").classList.remove("is-invalid");
+      renderDays();
+      updateDateHint();
+      $(`[data-day="${b.dataset.day}"]`)?.focus({ preventScroll: true });
+    });
+    $("#times").addEventListener("click", (e) => {
+      const b = e.target.closest("[data-time]");
+      if (!b || b.disabled) return;
+      form.time.value = b.dataset.time;
+      renderTimes();
+      $(`[data-time="${b.dataset.time}"]`)?.focus({ preventScroll: true });
     });
     form.addEventListener("input", (e) => {
       const field = e.target.closest(".field.is-invalid");
@@ -897,6 +956,8 @@
       }
       // Без WORKER_URL — демо: дані нікуди не надсилаються
       form.reset();
+      form.date.value = ""; // у прихованих полів reset не скидає значення
+      form.time.value = "";
       updateDelivery();
       updateContact();
       showPanel("success");

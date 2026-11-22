@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=17">
+  <link rel="stylesheet" href="style.css?v=18">
 </head>
 <body>
 
@@ -237,18 +237,19 @@
         <span class="field__error">Нік — це 5–32 латинські літери, цифри або _</span>
       </label>
 
-      <div class="field-row">
-        <label class="field">
-          <span class="field__label">Дата *</span>
-          <input class="input" name="date" type="date" required>
-          <span class="field__error">Оберіть дату</span>
-        </label>
-        <label class="field">
-          <span class="field__label">Час</span>
-          <select class="input" name="time"></select>
-        </label>
+      <div class="field">
+        <span class="field__label" id="date-label">Дата *</span>
+        <input name="date" type="hidden" required>
+        <div class="days" id="days" role="radiogroup" aria-labelledby="date-label"></div>
+        <span class="field__error">Оберіть дату</span>
+        <p class="field__hint field__hint--below" id="date-hint">Бажано замовляти за 2–3 дні</p>
       </div>
-      <p class="field__hint" id="date-hint">Бажано замовляти за 2–3 дні</p>
+
+      <div class="field">
+        <span class="field__label" id="time-label">Час</span>
+        <input name="time" type="hidden">
+        <div class="times" id="times" role="radiogroup" aria-labelledby="time-label"></div>
+      </div>
 
       <fieldset class="field choice">
         <legend class="field__label">Отримання</legend>
@@ -294,7 +295,7 @@
     </div>
   </dialog>
 
-  <script src="data.js?v=17"></script>
-  <script src="script.js?v=17"></script>
+  <script src="data.js?v=18"></script>
+  <script src="script.js?v=18"></script>
 </body>
 </html>
