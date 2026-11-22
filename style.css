@@ -337,6 +337,7 @@ textarea.input { resize: vertical; min-height: 88px; }
   background-image: linear-gradient(160deg, color-mix(in srgb, var(--c) 35%, #fff), var(--c) 55%, color-mix(in srgb, var(--c) 75%, #000));
   filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .25));
 }
+.digit--grad { background-image: var(--g); }
 .numbers__picked { font-weight: 500; }
 .num-list { display: grid; gap: 14px; }
 .num-entry { display: grid; gap: 14px; }

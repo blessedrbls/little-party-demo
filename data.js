@@ -93,6 +93,7 @@ const SHOP = {
     num70: {
       folder: "cifry-70",
       label: "Кольори цифр",
+      // grad — як показати цифру в превью, якщо колір не однотонний
       items: [
         { id: "01", name: "Рожеве золото", hex: "#d9a99a" },
         { id: "02", name: "Золото", hex: "#d9b23a" },
@@ -101,7 +102,7 @@ const SHOP = {
         { id: "05", name: "Рожева", hex: "#f1b9c8" },
         { id: "06", name: "Блакитна", hex: "#a9dcea" },
         { id: "07", name: "Айворі", hex: "#ece4d2" },
-        { id: "08", name: "Райдужна (градієнт)", hex: "#f0a6c4" },
+        { id: "08", name: "Райдужна (градієнт)", hex: "#f0a6c4", grad: "linear-gradient(160deg, #f7d64a 10%, #f49ac1 45%, #a6dcef 85%)" },
         { id: "09", name: "Синя", hex: "#24407e" },
         { id: "10", name: "Пастельно-м'ятна", hex: "#d3ecd8" },
         { id: "11", name: "Чорна", hex: "#1c1c1c" },
@@ -123,7 +124,7 @@ const SHOP = {
         { id: "10", name: "Ніжно-рожева", hex: "#f6cfe0" },
         { id: "11", name: "Фуксія", hex: "#d0246f" },
         { id: "12", name: "Лавандова", hex: "#a99ae0" },
-        { id: "13", name: "Райдужна (градієнт)", hex: "#c9e0a0" },
+        { id: "13", name: "Райдужна (градієнт)", hex: "#c9e0a0", grad: "linear-gradient(160deg, #8fd3f4 15%, #f7e463 45%, #f49ac1 70%, #b9a5e6 90%)" },
         { id: "14", name: "Червона", hex: "#d0262e" },
         { id: "15", name: "Біла", hex: "#f4f4f2" },
         { id: "16", name: "Персикова сатин", hex: "#d9a28c" },

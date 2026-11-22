@@ -376,7 +376,8 @@
     const digits = [...e.digits]
       .map((d, i) => {
         const c = numPal(e) && digitColor(e, i);
-        return `<span class="digit digit--${esc(size.id)}${c ? ` digit--tint" style="--c:${esc(c.hex)}` : ""}">${d}</span>`;
+        const tint = c ? ` digit--tint${c.grad ? " digit--grad" : ""}" style="--c:${esc(c.hex)}${c.grad ? `;--g:${esc(c.grad)}` : ""}` : "";
+        return `<span class="digit digit--${esc(size.id)}${tint}">${d}</span>`;
       })
       .join("");
     const n = e.digits.length;
