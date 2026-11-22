@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=15">
+  <link rel="stylesheet" href="style.css?v=16">
 </head>
 <body>
 
@@ -213,9 +213,21 @@
 
       <label class="field">
         <span class="field__label">Телефон *</span>
-        <input class="input" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+380 __ ___ __ __" required>
-        <span class="field__error">Вкажіть номер телефону</span>
+        <span class="phone">
+          <span class="phone__code" aria-hidden="true">+380</span>
+          <input class="input phone__input" name="phone" type="tel" inputmode="numeric" autocomplete="tel-national" placeholder="67 123 45 67" maxlength="12" aria-label="Телефон, 9 цифр після +380" required>
+        </span>
+        <span class="field__error">Вкажіть 9 цифр номера після +380</span>
       </label>
+
+      <fieldset class="field choice">
+        <legend class="field__label">Як з вами зв'язатися?</legend>
+        <div class="segmented segmented--wide contact-pick">
+          <label><input type="radio" name="contact" value="call" checked><span>Подзвонити</span></label>
+          <label><input type="radio" name="contact" value="telegram"><span>Telegram</span></label>
+          <label><input type="radio" name="contact" value="viber"><span>Viber</span></label>
+        </div>
+      </fieldset>
 
       <div class="field-row">
         <label class="field">
@@ -274,7 +286,7 @@
     </div>
   </dialog>
 
-  <script src="data.js?v=15"></script>
-  <script src="script.js?v=15"></script>
+  <script src="data.js?v=16"></script>
+  <script src="script.js?v=16"></script>
 </body>
 </html>

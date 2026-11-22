@@ -715,6 +715,21 @@
     pickup: "Самовивіз",
   };
 
+  const CONTACT = {
+    call: "Подзвонити",
+    telegram: "Написати в Telegram",
+    viber: "Написати у Viber",
+  };
+
+  // Телефон: клієнт вводить 9 цифр після +380. Якщо вставили повний номер (+380…, 380…, 0…) — відрізаємо код
+  const phoneDigits = (v) => {
+    let d = v.replace(/\D/g, "");
+    if (d.startsWith("380")) d = d.slice(3);
+    else if (d.length === 10 && d.startsWith("0")) d = d.slice(1);
+    return d.slice(0, 9);
+  };
+  const formatPhone = (d) => [d.slice(0, 2), d.slice(2, 5), d.slice(5, 7), d.slice(7, 9)].filter(Boolean).join(" ");
+
   function localISO(d = new Date()) {
     const x = new Date(d);
     x.setMinutes(x.getMinutes() - x.getTimezoneOffset());
@@ -796,7 +811,7 @@
       if (!ok && !firstBad) firstBad = input;
     };
     check(form.name, form.name.value.trim().length >= 2);
-    check(form.phone, form.phone.value.replace(/\D/g, "").length >= 10);
+    check(form.phone, phoneDigits(form.phone.value).length === 9);
     check(form.date, !!form.date.value && form.date.value >= form.date.min);
     if (form.address.required) check(form.address, form.address.value.trim().length >= 3);
     if (firstBad) firstBad.focus();
@@ -809,7 +824,8 @@
       items: currentOrder.items,
       total: currentOrder.total,
       name: form.name.value.trim(),
-      phone: form.phone.value.trim(),
+      phone: `+380${phoneDigits(form.phone.value)}`,
+      contact: CONTACT[form.contact.value] || CONTACT.call,
       date: form.date.value,
       time: form.time.value || "будь-який",
       delivery: DELIVERY[v],
@@ -840,6 +856,10 @@
     form.addEventListener("change", (e) => {
       if (e.target.name === "delivery") updateDelivery();
       if (e.target.name === "date") updateDateHint();
+    });
+    form.phone.addEventListener("input", () => {
+      const f = formatPhone(phoneDigits(form.phone.value));
+      if (f !== form.phone.value) form.phone.value = f;
     });
     form.addEventListener("input", (e) => {
       const field = e.target.closest(".field.is-invalid");

@@ -11,6 +11,7 @@
 
 const MAX_BODY = 8 * 1024; // байт
 const DELIVERY = ["Доставка по Троєщині", "Доставка за межі Троєщини", "Самовивіз"];
+const CONTACT = ["Подзвонити", "Написати в Telegram", "Написати у Viber"];
 
 export default {
   async fetch(request, env) {
@@ -81,6 +82,7 @@ function validate(d) {
   const date = str(d.date, 10);
   const time = str(d.time, 20);
   const delivery = str(d.delivery, 40);
+  const contact = str(d.contact, 40);
   const address = str(d.address, 200);
   const comment = str(d.comment, 1000);
   const total = str(d.total, 40);
@@ -91,10 +93,11 @@ function validate(d) {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) return { ok: false, error: "date" };
   if (time && !/^(\d{2}:\d{2}|будь-який)$/.test(time)) return { ok: false, error: "time" };
   if (!DELIVERY.includes(delivery)) return { ok: false, error: "delivery" };
+  if (contact && !CONTACT.includes(contact)) return { ok: false, error: "contact" };
   if (delivery !== "Самовивіз" && address.length < 3) return { ok: false, error: "address" };
   if (!items.length) return { ok: false, error: "items" };
 
-  return { ok: true, value: { name, phone, date, time, delivery, address, comment, total, items } };
+  return { ok: true, value: { name, phone, contact, date, time, delivery, address, comment, total, items } };
 }
 
 const h = (s) => String(s).replace(/[&<>]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;" })[c]);
@@ -110,6 +113,7 @@ function format(o) {
     "",
     `<b>Ім'я:</b> ${h(o.name)}`,
     `<b>Телефон:</b> ${h(o.phone)}`,
+    `<b>Зв'язок:</b> ${h(o.contact || "—")}`,
     `<b>Дата:</b> ${d}.${m}.${y}`,
     `<b>Час:</b> ${h(o.time || "будь-який")}`,
     `<b>Отримання:</b> ${h(o.delivery)}`,
