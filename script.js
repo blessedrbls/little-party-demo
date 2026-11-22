@@ -7,7 +7,7 @@
    * SHEET_URL — посилання на опубліковану Google Таблицю у форматі CSV (див. README.md).
    *   Порожньо — ціни й набори беруться з data.js.
    */
-  const WORKER_URL = "";
+  const WORKER_URL = "https://little-party-orders.aleksstarichenko.workers.dev";
   const SHEET_URL = "";
 
   const $ = (sel, root = document) => root.querySelector(sel);

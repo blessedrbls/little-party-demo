@@ -3,6 +3,8 @@
 name = "little-party-orders"
 main = "worker.js"
 compatibility_date = "2026-11-01"
+workers_dev = true
+preview_urls = false
 
 [vars]
 ALLOWED_ORIGINS = "https://blessedrbls.github.io"
