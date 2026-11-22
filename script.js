@@ -229,7 +229,7 @@
           <span class="item__badge">${badge}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></span>
         </button>
         <div class="palette" id="pal-${esc(x.id)}" ${open ? "" : "hidden"}>
-          <p class="palette__hint">${esc(pal.hint || "Натисніть на колір, щоб додати. Можна кілька.")}</p>
+          <p class="palette__hint">${esc(x.hint || pal.hint || "Натисніть на колір, щоб додати. Можна кілька.")}</p>
           ${swatchGroupsHtml(x, pal)}
           ${
             picked.length
@@ -245,7 +245,7 @@
                   .join("")}</ul>`
               : ""
           }
-          ${inscriptionHtml(group, x, state.colors[x.id].custom || 0)}
+          ${inscriptionHtml(group, x, pal.items.some((c) => c.custom) ? state.colors[x.id].custom || 0 : qty)}
         </div>
       </li>`;
   }
@@ -454,7 +454,13 @@
     });
     SHOP.foil.forEach((x) => {
       const q = qtyOf("foil", x);
-      if (q) lines.push({ name: `Фольговані «${x.name}»`, qty: q, sum: q * x.price, from: !!x.from, detail: palette(x) ? paletteDetail("foil", x) : "" });
+      if (!q) return;
+      let detail = palette(x) ? paletteDetail("foil", x) : "";
+      if (x.inscription) {
+        const t = textOf(`foil:${x.id}`);
+        detail = [detail, t ? `напис: «${t}»` : "напис: уточнити"].filter(Boolean).join("; ");
+      }
+      lines.push({ name: `Фольговані «${x.name}»`, qty: q, sum: q * x.price, from: !!x.from, detail });
     });
     SHOP.bubbles.forEach((x) => {
       const q = state.bubbles[x.id];

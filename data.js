@@ -61,17 +61,23 @@ const SHOP = {
   // from: true — показуємо «від», рахуємо за мінімальною ціною
   // palette — ключ у colors (клієнт обирає кольори кружечками)
   // inscription: true — є поле «Текст напису»
+  // hint — своя підказка над палітрою для цієї позиції
   latex: [
     { id: "plain", name: "Звичайні", price: 90, swatch: "plain", palette: "plain" },
     { id: "chrome", name: "Хром", price: 100, swatch: "chrome", palette: "chrome" },
     { id: "confetti", name: "З конфетті", price: 100, swatch: "confetti", palette: "confetti" },
-    { id: "print", name: "З малюнком / написом", price: 95, swatch: "print", palette: "print", inscription: true },
+    { id: "print", name: "З малюнком / написом", price: 95, swatch: "print", palette: "print" },
     { id: "agate", name: "Агати", price: 110, swatch: "agate", palette: "agate" },
     { id: "brush", name: "Браш", price: 110, swatch: "brush", palette: "brush" },
   ],
 
   foil: [
     { id: "heart", name: "Серце / зірка без малюнка", price: 170, icon: "heart", palette: "foil" },
+    // Індивідуальний напис робимо тільки на фольгованих зірках і серцях: ціна кульки + напис від 60 грн
+    {
+      id: "heartText", name: "Серце / зірка з індивідуальним написом", price: 230, from: true, icon: "heart", palette: "foil", inscription: true,
+      hint: "Оберіть колір зірки чи серця, а нижче впишіть текст. Напис — від 60 грн до ціни кульки.",
+    },
     { id: "printed", name: "З малюнком / написом", price: 190, priceTo: 230, from: true, icon: "printed", palette: "foilprint" },
     { id: "figure", name: "Фігура", price: 300, from: true, icon: "figure" },
   ],
@@ -276,7 +282,6 @@ const SHOP = {
         { id: "04", name: "Хлопчик", hex: "#4f6fc8", group: "newborn" },
         { id: "05", name: "Дівчинка", hex: "#e86ab4", group: "newborn" },
         { id: "06", name: "Дякую за донечку / синочка", hex: "#c9ddf3", group: "newborn" },
-        { id: "custom", name: "Свій напис", hex: "#fbf3ec", group: "text", custom: true },
         { id: "07", name: "З Днем народження, класичний", hex: "#f4f4f4", group: "text" },
         { id: "08", name: "З Днем народження з бантом, рожевий", hex: "#f6d9e3", group: "text" },
         { id: "09", name: "З Днем народження з бантом, кремовий", hex: "#f6ece3", group: "text" },
