@@ -26,7 +26,7 @@
   --shadow-sm: 0 4px 14px -6px rgba(80, 50, 130, .2);
   --font: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: "Playfair Display", Georgia, serif;
-  --header-h: 74px;
+  --header-h: 64px;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -100,9 +100,9 @@ p { margin: 0; }
 }
 .header__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: var(--header-h); }
 .logo { display: inline-flex; align-items: center; gap: 8px; text-decoration: none; min-width: 0; }
-.logo__img { width: auto; height: 60px; flex: none; }
+.logo__img { width: auto; height: 46px; flex: none; }
 .logo__text { font-family: var(--font-display); font-size: 18px; font-weight: 600; white-space: nowrap; }
-@media (max-width: 359px) { .logo__text { font-size: 16px; } .logo__img { height: 50px; } }
+@media (max-width: 359px) { .logo__text { font-size: 16px; } .logo__img { height: 40px; } }
 .logo__text em { font-style: italic; color: var(--gold-deep); font-weight: 500; }
 .nav { display: none; }
 .header__call {
@@ -333,12 +333,6 @@ textarea.input { resize: vertical; min-height: 88px; }
   animation: pop .25s ease;
 }
 .digit--100 { font-size: 64px; }
-.digit--tint {
-  background-image: linear-gradient(160deg, color-mix(in srgb, var(--c) 35%, #fff), var(--c) 55%, color-mix(in srgb, var(--c) 75%, #000));
-  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, .25));
-}
-.numbers__picked { font-weight: 500; }
-.swatches--digits .swatch img { padding: 2px; }
 @keyframes pop { from { transform: scale(.6); opacity: 0; } to { transform: none; opacity: 1; } }
 .numbers__hint { font-size: 14px; color: var(--text-soft); }
 
@@ -526,8 +520,8 @@ select.input { appearance: none; -webkit-appearance: none; padding-right: 40px; 
 
 /* ===== Десктоп ===== */
 @media (min-width: 960px) {
-  :root { --header-h: 92px; }
-  .logo__img { height: 76px; }
+  :root { --header-h: 76px; }
+  .logo__img { height: 54px; }
   html { scroll-padding-top: calc(var(--header-h) + 12px); }
   .header { position: sticky; top: 0; }
   .nav { display: flex; gap: 28px; font-weight: 600; font-size: 15px; }
@@ -535,7 +529,7 @@ select.input { appearance: none; -webkit-appearance: none; padding-right: 40px; 
   .nav a:hover { border-color: var(--gold); }
   .header__call { width: auto; padding: 0 18px 0 14px; border-radius: 999px; }
   .header__call span { display: inline; }
-  .logo__text { font-size: 24px; }
+  .logo__text { font-size: 22px; }
 
   .hero { padding: 64px 0 88px; }
   .hero__inner { grid-template-columns: 1.1fr .9fr; align-items: center; gap: 56px; }

@@ -130,7 +130,6 @@
     open: {}, // які палітри розгорнуті
     digits: "",
     size: SHOP.numberSizes[0].id,
-    numColor: {}, // { "70": "03" } — колір цифр окремо для кожного розміру
     ref: null,
   };
 
@@ -319,27 +318,6 @@
       <label><input type="radio" name="size" value="${s.id}" ${s.id === state.size ? "checked" : ""}><span>${esc(s.label)}<small>${s.price} грн</small></span></label>`
       )
       .join("");
-    renderNumColors();
-  }
-
-  // Колір цифр: палітра поточного розміру й обраний у ній колір
-  const numPalette = () => palette(SHOP.numberSizes.find((s) => s.id === state.size) || {});
-  const numColor = () => numPalette()?.items.find((c) => c.id === state.numColor[state.size]) || null;
-
-  function renderNumColors() {
-    const pal = numPalette();
-    const box = $("#num-colors");
-    box.closest(".field").hidden = !pal;
-    if (!pal) return;
-    const cur = state.numColor[state.size];
-    box.innerHTML = pal.items
-      .map(
-        (c) => `<button class="swatch" type="button" role="radio" data-ncolor="${esc(c.id)}" aria-checked="${c.id === cur}" aria-pressed="${c.id === cur}" title="${esc(c.name)}" aria-label="${esc(c.name)}" style="--c:${esc(c.hex)}">
-          <img src="${esc(swatchSrc(pal, c))}" alt="" loading="lazy" decoding="async" width="128" height="128">
-        </button>`
-      )
-      .join("");
-    $("#num-color-name").textContent = numColor() ? `· ${numColor().name}` : "";
   }
 
   function calc() {
@@ -379,9 +357,7 @@
     const digitCount = state.digits.length;
     if (digitCount) {
       const size = SHOP.numberSizes.find((s) => s.id === state.size);
-      const c = numColor();
-      const detail = numPalette() ? `колір: ${c ? c.name.toLowerCase() : "уточнити"}` : "";
-      lines.push({ name: `Цифри «${state.digits}», ${size.label}`, qty: digitCount, sum: digitCount * size.price, from: false, detail });
+      lines.push({ name: `Цифри «${state.digits}», ${size.label}`, qty: digitCount, sum: digitCount * size.price, from: false, detail: "" });
     }
     const total = lines.reduce((a, l) => a + l.sum, 0);
     const hasFrom = lines.some((l) => l.from);
@@ -426,9 +402,7 @@
 
   function updateDigits() {
     const size = SHOP.numberSizes.find((s) => s.id === state.size);
-    const c = numColor();
-    const tint = c ? ` digit--tint" style="--c:${esc(c.hex)}` : "";
-    $("#digits-preview").innerHTML = [...state.digits].map((d) => `<span class="digit digit--${size.id}${tint}">${d}</span>`).join("");
+    $("#digits-preview").innerHTML = [...state.digits].map((d) => `<span class="digit digit--${size.id}">${d}</span>`).join("");
     const n = state.digits.length;
     $("#digits-hint").textContent = n
       ? `${n} ${plural(n, "цифра", "цифри", "цифр")} × ${size.price} грн = ${money(n * size.price)}`
@@ -550,20 +524,6 @@
 
     $("#sizes").addEventListener("change", (e) => {
       state.size = e.target.value;
-      renderNumColors();
-      updateDigits();
-      updateSummary();
-    });
-
-    // Один колір на всі цифри; повторний тап знімає вибір
-    $("#num-colors").addEventListener("click", (e) => {
-      const sw = e.target.closest("[data-ncolor]");
-      if (!sw) return;
-      const id = sw.dataset.ncolor;
-      if (state.numColor[state.size] === id) delete state.numColor[state.size];
-      else state.numColor[state.size] = id;
-      renderNumColors();
-      $(`[data-ncolor="${CSS.escape(id)}"]`)?.focus({ preventScroll: true });
       updateDigits();
       updateSummary();
     });

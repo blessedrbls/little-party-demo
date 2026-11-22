@@ -83,57 +83,13 @@ const SHOP = {
   ],
 
   numberSizes: [
-    { id: "70", label: "70 см", price: 350, palette: "num70" },
-    { id: "100", label: "100 см", price: 450, palette: "num100" },
+    { id: "70", label: "70 см", price: 350 },
+    { id: "100", label: "100 см", price: 450 },
   ],
 
   // Палітри кольорів і малюнків. Фото: colors/<folder>/sm/<id>.jpg (оригінали — colors/<folder>/<id>.jpg)
   // groups — підзаголовки всередині палітри; custom: true — плитка без фото («Свій напис», відкриває поле тексту)
   colors: {
-    num70: {
-      folder: "cifry-70",
-      label: "Кольори цифр",
-      items: [
-        { id: "01", name: "Рожеве золото", hex: "#d9a99a" },
-        { id: "02", name: "Золото", hex: "#d9b23a" },
-        { id: "03", name: "Срібло", hex: "#d4d6da" },
-        { id: "04", name: "Червона", hex: "#d0262e" },
-        { id: "05", name: "Рожева", hex: "#f1b9c8" },
-        { id: "06", name: "Блакитна", hex: "#a9dcea" },
-        { id: "07", name: "Айворі", hex: "#ece4d2" },
-        { id: "08", name: "Райдужна (градієнт)", hex: "#f0a6c4" },
-        { id: "09", name: "Синя", hex: "#24407e" },
-        { id: "10", name: "Пастельно-м'ятна", hex: "#d3ecd8" },
-        { id: "11", name: "Чорна", hex: "#1c1c1c" },
-      ],
-    },
-    num100: {
-      folder: "cifry-100",
-      label: "Кольори цифр",
-      items: [
-        { id: "01", name: "Срібло", hex: "#d4d6da" },
-        { id: "02", name: "Золото", hex: "#e2b52a" },
-        { id: "03", name: "Рожеве золото", hex: "#e2a58e" },
-        { id: "04", name: "Бежева", hex: "#ecd6bd" },
-        { id: "05", name: "Синя", hex: "#1f4fae" },
-        { id: "06", name: "Пастельно-блакитна", hex: "#bfe3f3" },
-        { id: "07", name: "Бірюзова", hex: "#3fa79a" },
-        { id: "08", name: "Чорна", hex: "#1c1c1c" },
-        { id: "09", name: "Зелена", hex: "#1f8a3a" },
-        { id: "10", name: "Ніжно-рожева", hex: "#f6cfe0" },
-        { id: "11", name: "Фуксія", hex: "#d0246f" },
-        { id: "12", name: "Лавандова", hex: "#a99ae0" },
-        { id: "13", name: "Райдужна (градієнт)", hex: "#c9e0a0" },
-        { id: "14", name: "Червона", hex: "#d0262e" },
-        { id: "15", name: "Біла", hex: "#f4f4f2" },
-        { id: "16", name: "Персикова сатин", hex: "#d9a28c" },
-        { id: "17", name: "Срібло сатин", hex: "#b9bbbe" },
-        { id: "18", name: "Оливкова", hex: "#6b7a3a" },
-        { id: "19", name: "Шоколадна", hex: "#7b5a45" },
-        { id: "20", name: "Шампань сатин", hex: "#c9b296" },
-        { id: "21", name: "Бузкова сатин", hex: "#dccbec" },
-      ],
-    },
     foilprint: {
       folder: "folga-malyunok",
       label: "Малюнки",
