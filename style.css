@@ -535,6 +535,9 @@ select.input { appearance: none; -webkit-appearance: none; padding-right: 40px; 
 .contact-pick span { padding: 8px 10px; }
 .field__hint--below { margin-top: 0; }
 .contact-pick + .field__hint { margin-top: 2px; }
+.sets-more { display: flex; margin: 24px auto 0; min-width: 220px; }
+.sets-more[hidden] { display: none; }
+
 /* Дата і час — свої картки замість системних полів */
 .days {
   display: flex; gap: 8px; overflow-x: auto; scroll-snap-type: x proximity; padding: 4px 2px 8px; margin: 0 -2px;

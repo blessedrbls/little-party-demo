@@ -44,6 +44,8 @@
 
   /* ---------- Готові набори ---------- */
   let activeCat = "all";
+  const SETS_PAGE = 12; // скільки наборів показувати за раз
+  let setsShown = SETS_PAGE;
   const findSet = (id) => SHOP.sets.find((s) => s.id === id);
   const setPrice = (s) => (s.price ? `від ${money(s.price)}` : SHOP.setPriceLabel);
 
@@ -57,11 +59,16 @@
   }
 
   function renderSets() {
-    const list = SHOP.sets.filter((s) => activeCat === "all" || s.categories.includes(activeCat));
+    const all = SHOP.sets.filter((s) => activeCat === "all" || s.categories.includes(activeCat));
+    const list = all.slice(0, setsShown);
+    const rest = all.length - list.length;
+    const more = $("#sets-more");
+    more.hidden = rest <= 0;
+    more.textContent = `Показати ще ${Math.min(rest, SETS_PAGE)} з ${rest}`;
     $("#sets-grid").innerHTML = list
       .map(
         (s, i) => `
-      <article class="set-card" style="animation-delay:${Math.min(i, 8) * 40}ms">
+      <article class="set-card" style="animation-delay:${Math.min(Math.max(i - setsShown + SETS_PAGE, 0), 8) * 40}ms">
         <button class="set-card__photo" type="button" data-zoom="${esc(s.id)}" aria-label="Збільшити фото: ${esc(s.title)}">
           <img src="${esc(s.image)}" alt="${esc(s.title)}" loading="lazy" decoding="async" width="980" height="1400">
           <span class="set-card__zoom" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6"/><path d="m20 20-4.5-4.5M11 8v6M8 11h6"/></svg></span>
@@ -87,9 +94,18 @@
       const tab = e.target.closest("[data-cat]");
       if (!tab || tab.dataset.cat === activeCat) return;
       activeCat = tab.dataset.cat;
+      setsShown = SETS_PAGE;
       $$(".tab").forEach((t) => t.setAttribute("aria-selected", t === tab));
       tab.scrollIntoView({ behavior: "smooth", block: "nearest", inline: "center" });
       renderSets();
+    });
+
+    $("#sets-more").addEventListener("click", () => {
+      const before = setsShown;
+      setsShown += SETS_PAGE;
+      renderSets();
+      // фокус на першу нову картку, щоб клавіатура не губилась
+      document.querySelectorAll("#sets-grid .set-card")[before]?.querySelector("button")?.focus({ preventScroll: true });
     });
 
     $("#sets-grid").addEventListener("click", (e) => {
