@@ -53,6 +53,7 @@
     $("#set-tabs").innerHTML = SHOP.categories
       .map((c) => {
         const count = c.id === "all" ? SHOP.sets.length : SHOP.sets.filter((s) => s.categories.includes(c.id)).length;
+        if (!count) return ""; // порожні вкладки (поки немає фото) не показуємо
         return `<button class="tab" role="tab" type="button" data-cat="${c.id}" aria-selected="${c.id === activeCat}">${esc(c.label)}<span class="tab__count">${count}</span></button>`;
       })
       .join("");

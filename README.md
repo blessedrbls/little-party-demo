@@ -12,7 +12,7 @@ A website for a small balloon decoration studio in Troieshchyna, Kyiv. Customers
 
 ## Features
 
-- **Ready-made sets.** 61 real photos sorted by category (1st birthday, boys, girls, newborn, ceiling) with filter tabs, a click-to-zoom lightbox and "from X UAH" prices. Prices come from the client; the first estimates are kept in [`prices-to-confirm.md`](prices-to-confirm.md).
+- **Ready-made sets.** 61 real photos sorted by category (the same tabs as the studio's Instagram highlights: 1st birthday, boys, newborn, for her, girls, ages, football, surprise box) with filter tabs, a click-to-zoom lightbox and "from X UAH" prices. Prices come from the client; the first estimates are kept in [`prices-to-confirm.md`](prices-to-confirm.md).
 - **Set builder.** Occasion, latex balloons, foil balloons, bubbles with a custom inscription and number balloons (70 or 100 cm, each digit priced separately, several sets of digits in different sizes, with a colour picker from real photos: 11 colours for 70 cm, 21 for 100 cm, one colour for all digits or a different one per digit). The total updates as you go. On mobile it sits in a sticky bottom panel.
 - **Balloon colours.** For each latex type (plain, chrome, confetti, agate, brush) and for plain foil stars and hearts (20 colours each) the customer taps colours made from real photos and sets a quantity per colour. The chosen colours go into the order.
 - **Printed balloons.** Catalogues of printed latex balloons (30 prints) and printed foil balloons (59 designs). Latex is grouped into newborn, inscriptions and pictures; foil into newborn and "with picture and inscription". Custom inscriptions are offered on foil stars and hearts (balloon price + from 60 UAH), with a colour picker and a text field. Choosing the newborn occasion opens the newborn groups. Bubbles get a "text of the inscription" field too.
@@ -61,7 +61,7 @@ The sheet does not replace `data.js`, it is applied on top of it: a row changes 
 | `from` | `так` to show "from X" (foil, bubbles) |
 | `size` | bubble size, e.g. `45–50 см` |
 | `image` | sets only: photo path, e.g. `images/set-17.jpg`. Required for a new set |
-| `categories` | sets only: `first`, `boys`, `girls`, `newborn`, `ceiling`, separated by spaces |
+| `categories` | sets only: `first`, `boys`, `newborn`, `her`, `girls`, `age3`, `age9`, `age10`, `football`, `box`, separated by spaces |
 | `occasion` | sets only: `first`, `newborn`, `birthday` or `other` |
 | `hidden` | `так` hides the item or set from the site |
 
