@@ -44,7 +44,6 @@ const SHOP = {
   sets: [
     { id: "set-01", title: "Ведмедик і жирафа з цифрою 1", image: "images/set-01.jpg", categories: ["first"], occasion: "first", price: 1960 },
     { id: "set-02", title: "Блакитна одиничка із зайчиком", image: "images/set-02.jpg", categories: ["first"], occasion: "first", price: 1750 },
-    { id: "set-03", title: "Фотозона «Сафарі» на 1 рік", image: "images/set-03.jpg", categories: ["first"], occasion: "first", price: null },
     { id: "set-04", title: "Хром і машинка-позашляховик з цифрою 1", image: "images/set-04.jpg", categories: ["first"], occasion: "first", price: 1430 },
     { id: "set-05", title: "Червона гоночна машинка з цифрою 4", image: "images/set-05.jpg", categories: ["boys"], occasion: "birthday", price: 1300 },
     { id: "set-06", title: "Чорно-білі кульки під стелю", image: "images/set-06.jpg", categories: [], occasion: "birthday", price: 1585 },
