@@ -46,7 +46,6 @@ const SHOP = {
     { id: "set-07", title: "Футбольний набір з кубками", image: "images/set-07.jpg", categories: ["boys"], occasion: "birthday", price: 1455 },
     { id: "set-08", title: "Чорна цифра 9 з футбольним м'ячем", image: "images/set-08.jpg", categories: ["boys"], occasion: "birthday", price: 825 },
     { id: "set-09", title: "Футбольні м'ячі та зірка з написом", image: "images/set-09.jpg", categories: ["boys"], occasion: "birthday", price: 950 },
-    { id: "set-10", title: "Три фонтани «Baby» з бантиком", image: "images/set-10.jpg", categories: ["newborn"], occasion: "newborn", price: 2800 },
     { id: "set-11", title: "Лелека з колясочкою на виписку", image: "images/set-11.jpg", categories: ["newborn"], occasion: "newborn", price: 2415 },
     { id: "set-12", title: "Пудрова стеля з великим бантом", image: "images/set-12.jpg", categories: ["newborn", "ceiling"], occasion: "newborn", price: 4130 },
     { id: "set-13", title: "Червоний бант між двома фонтанами", image: "images/set-13.jpg", categories: ["girls"], occasion: "birthday", price: 2970 },
