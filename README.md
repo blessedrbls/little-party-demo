@@ -46,7 +46,7 @@ To change prices, sets, colours or contacts, edit `data.js`. Two switches live a
 
 ## Prices from a Google Sheet
 
-1. Create a Google Sheet with the columns below (first row = headers, exactly these names).
+1. Create a Google Sheet with the columns below (first row = headers, exactly these names). The quickest way: **File → Import → Upload** [`sheet/little-party-prices.csv`](sheet/little-party-prices.csv). It already lists every item and set with its current price and a photo preview of each set. Ukrainian headers also work: `Розділ`, `Код`, `Назва`, `Ціна`, `Сховати` (`Фото` is ignored). Sections can be written in Ukrainian too (`Латекс`, `Фольга`, `Бабли`, `Цифри`, `Набори`), and prices like `1 200 грн` are read as 1200.
 2. **File → Share → Publish to web**, pick the sheet, format **Comma-separated values (.csv)**, **Publish**. Copy the link.
 3. Paste it into `SHEET_URL` in `script.js`.
 

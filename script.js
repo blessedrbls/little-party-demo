@@ -1018,7 +1018,12 @@
       } else cell += ch;
     }
     if (cell || row.length) { row.push(cell); rows.push(row); }
-    const head = (rows.shift() || []).map((h) => h.trim().toLowerCase());
+    // заголовки можна писати українською (так зручніше власниці)
+    const alias = { "розділ": "section", "код": "id", "назва": "name", "ціна": "price", "сховати": "hidden", "фото": "photo" };
+    const head = (rows.shift() || []).map((h) => {
+      const k = h.trim().toLowerCase();
+      return alias[k] || k;
+    });
     return rows
       .filter((r) => r.some((c) => c.trim()))
       .map((r) => Object.fromEntries(head.map((h, i) => [h, (r[i] || "").trim()])));
@@ -1026,14 +1031,18 @@
 
   const yes = (v) => /^(1|так|yes|true|y|\+)$/i.test(v || "");
   const num = (v) => {
-    const n = Number(String(v).replace(/\s/g, "").replace(",", "."));
-    return Number.isFinite(n) && String(v).trim() !== "" ? n : null;
+    // «1 200 грн» → 1200; «за запитом» або порожньо → null
+    const s = String(v ?? "").replace(/[^\d,.]/g, "").replace(",", ".");
+    const n = Number(s);
+    return s && Number.isFinite(n) ? n : null;
   };
 
   function applySheet(rows) {
     const sections = { latex: "latex", foil: "foil", bubble: "bubbles", bubbles: "bubbles" };
+    const secAlias = { "латекс": "latex", "фольга": "foil", "бабли": "bubble", "бабл": "bubble", "цифри": "number", "набори": "set", "набір": "set" };
     rows.forEach((r) => {
-      const sec = (r.section || "").toLowerCase();
+      const raw = (r.section || "").trim().toLowerCase();
+      const sec = secAlias[raw] || raw;
       const id = r.id;
       if (!id) return;
       if (sec === "set") {
