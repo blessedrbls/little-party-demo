@@ -255,7 +255,7 @@
                     (c) => `
             <li class="picked__row">
               <span class="picked__dot${c.custom ? " picked__dot--custom" : ""}" style="${c.custom ? "" : `background-image:url('${esc(swatchSrc(pal, c))}');`}--c:${esc(c.hex)}" aria-hidden="true">${c.custom ? "Aa" : ""}</span>
-              <span class="picked__name">${esc(c.name)}${c.price ? ` <small>· ${c.price} грн</small>` : ""}</span>
+              <span class="picked__name">${esc(c.name)}</span>
               ${stepperHtml(c.name, state.colors[x.id][c.id], `data-cstep="${esc(x.id)}:${esc(c.id)}"`)}
             </li>`
                   )
@@ -276,10 +276,8 @@
           const face = c.custom
             ? `<span class="swatch__custom" aria-hidden="true"><b>Aa</b>${esc(c.name)}</span>`
             : `<img src="${esc(swatchSrc(pal, c))}" alt="" loading="lazy" decoding="async" width="128" height="128">`;
-          const tip = c.price ? `${c.name}, ${c.price} грн` : c.name;
-          return `<button class="swatch${c.custom ? " swatch--custom" : ""}" type="button" data-color="${esc(x.id)}:${esc(c.id)}" aria-pressed="${n > 0}" title="${esc(tip)}" aria-label="${esc(tip)}${n ? `, ${n} шт.` : ""}" style="--c:${esc(c.hex)}">
+          return `<button class="swatch${c.custom ? " swatch--custom" : ""}" type="button" data-color="${esc(x.id)}:${esc(c.id)}" aria-pressed="${n > 0}" title="${esc(c.name)}" aria-label="${esc(c.name)}${n ? `, ${n} шт.` : ""}" style="--c:${esc(c.hex)}">
                   ${face}
-                  ${c.price ? `<span class="swatch__price" aria-hidden="true">${c.price} грн</span>` : ""}
                   ${n ? `<span class="swatch__qty">${n}</span>` : ""}
                 </button>`;
         })
@@ -479,21 +477,7 @@
         const t = textOf(`foil:${x.id}`);
         detail = [detail, t ? `напис: «${t}»` : "напис: уточнити"].filter(Boolean).join("; ");
       }
-      let sum = q * x.price;
-      let from = !!x.from;
-      const pal = palette(x);
-      if (pal && pal.items.some((c) => c.price)) {
-        // у фігур своя ціна в кожної; без ціни — базова «від»
-        sum = 0;
-        from = false;
-        pal.items.forEach((c) => {
-          const n = state.colors[x.id][c.id] || 0;
-          if (!n) return;
-          sum += n * (c.price || x.price);
-          if (!c.price) from = !!x.from;
-        });
-      }
-      lines.push({ name: `Фольговані «${x.name}»`, qty: q, sum, from, detail });
+      lines.push({ name: `Фольговані «${x.name}»`, qty: q, sum: q * x.price, from: !!x.from, detail });
     });
     SHOP.bubbles.forEach((x) => {
       const q = state.bubbles[x.id];
