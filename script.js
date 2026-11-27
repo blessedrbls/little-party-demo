@@ -8,7 +8,7 @@
    *   Порожньо — ціни й набори беруться з data.js.
    */
   const WORKER_URL = "https://little-party-orders.aleksstarichenko.workers.dev";
-  const SHEET_URL = "";
+  const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTfW-BmLbM8wQtoo2HUUlvE715ER7VLKia6Zu039rMw0sPwoefa3rF4dPLaanQD1tqN4EQ_pH2WzfF3/pub?gid=0&single=true&output=csv";
 
   const $ = (sel, root = document) => root.querySelector(sel);
   const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
